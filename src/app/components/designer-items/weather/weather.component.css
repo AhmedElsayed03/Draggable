@@ -1,0 +1,38 @@
+.dynamic-item {
+    position: absolute;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    min-width: 150px;
+    min-height: 150px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .weather-info h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .weather-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .resizer {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #007bff;
+    z-index: 10;
+  }
+  
+  .draggable-resizable {
+    position: absolute;
+    border: 2px solid #ccc;
+    resize: both; /* Optional for visible hints */
+    overflow: hidden;
+  }
+  

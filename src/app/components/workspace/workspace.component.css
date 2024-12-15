@@ -1,0 +1,18 @@
+/* .component {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+  }
+  
+  .component .resizer {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    cursor: se-resize;
+    bottom: 0;
+    right: 0;
+  }
+   */
