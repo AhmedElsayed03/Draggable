@@ -1,13 +1,13 @@
 import { Component, ViewChild, ViewContainerRef, Type } from '@angular/core';
 import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
-import { ChannelsComponent } from '../designer-items/channels/channels.component';
-import { ResturantComponent } from '../designer-items/resturant/resturant.component';
+import {CdkDrag} from '@angular/cdk/drag-drop';
+import { TextComponent } from '../designer-items/Text/text.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [],
+  imports: [CdkDrag],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
@@ -24,12 +24,10 @@ export class WorkspaceComponent {
       case 'flights':
         component = FlightsComponent;
         break;
-      case 'channels':
-        component = ChannelsComponent;
+      case 'text':
+        component = TextComponent;
         break;
-      case 'resturant':
-        component = ResturantComponent;
-        break;
+
     }
 
     if (component) {

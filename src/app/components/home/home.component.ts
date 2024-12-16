@@ -2,11 +2,12 @@ import { Component, ViewChild  } from '@angular/core';
 import { DesignerComponent } from '../designer/designer.component';
 import { HeaderComponent } from '../header/header.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
+import {CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [DesignerComponent, HeaderComponent, WorkspaceComponent],
+  imports: [DesignerComponent, HeaderComponent, WorkspaceComponent, CdkDrag],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

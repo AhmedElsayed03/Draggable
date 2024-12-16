@@ -3,12 +3,12 @@ import { DragResizeDirective } from '../../../directives/drag-resize.directive';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-flights',
+  selector: 'app-text',
   standalone: true,
   imports: [DragResizeDirective, CdkDrag],
-  templateUrl: './flights.component.html',
-  styleUrl: './flights.component.css'
+  templateUrl: './text.component.html',
+  styleUrl: './text.component.css'
 })
-export class FlightsComponent {
+export class TextComponent {
 
 }

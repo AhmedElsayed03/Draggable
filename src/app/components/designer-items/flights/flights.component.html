@@ -1,6 +1,9 @@
-<div class="dynamic-item" appDragResize>
+<ng-container cdkDragBoundary=".workspace"   cdkDrag>
+
+<div class="dynamic-item"  DragResizeDirective >
     <div class="flight-info">
       <h3>Flight Details</h3>
+      <input type="text" name="text" id="text">
       <p><strong>Airline:</strong> SkyHigh Airlines</p>
       <p><strong>Flight Number:</strong> SH202</p>
       <p><strong>Departure:</strong> New York (JFK)</p>
@@ -12,4 +15,5 @@
     <div class="resizer bottom"></div>
     <div class="resizer left"></div>
   </div>
-  
+<ng-container>
+

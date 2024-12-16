@@ -3,19 +3,18 @@
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #fff5e6;
-    min-width: 150px;
-    min-height: 150px;
+    background-color: #eaf4fc;
+
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  .restaurant-info h3 {
+  .text-info h3 {
     margin: 0 0 10px;
     font-size: 18px;
-    color: #5a3e2b;
+    color: #003366;
   }
   
-  .restaurant-info p {
+  .text-info p {
     margin: 5px 0;
     font-size: 14px;
     color: #333;
@@ -25,7 +24,7 @@
     position: absolute;
     width: 10px;
     height: 10px;
-    background-color: #ff7e00;
+    background-color: #0066cc;
     z-index: 10;
   }
   
