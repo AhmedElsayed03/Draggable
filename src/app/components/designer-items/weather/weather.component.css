@@ -1,13 +1,18 @@
 .dynamic-item {
-    position: absolute;
+    width: 230px;
+    height: 250px;
+    position: relative;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    position: relative;
     background-color: #f9f9f9;
-    min-width: 150px;
-    min-height: 150px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
   
   .weather-info h3 {
     margin: 0 0 10px;
@@ -20,19 +25,54 @@
     font-size: 14px;
     color: #555;
   }
-  
-  .resizer {
+    
+  .resize-handle {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #007bff;
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
     z-index: 10;
+    opacity: 0%;
   }
   
-  .draggable-resizable {
+  .resize-handle.top {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    cursor: n-resize;
+  }
+  
+  .resize-handle.right {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 100%;
+    cursor: e-resize;
+  }
+  
+  .resize-handle.bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    cursor: s-resize;
+  }
+  
+  .resize-handle.left {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100%;
+    cursor: w-resize;
+  }
+  
+  .drag-handle {
+    background: #55ff00;
+    color: white;
+    cursor: grab;
+    opacity: 0%;
     position: absolute;
-    border: 2px solid #ccc;
-    resize: both; /* Optional for visible hints */
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
   

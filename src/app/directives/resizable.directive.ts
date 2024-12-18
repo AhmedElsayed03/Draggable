@@ -1,11 +1,10 @@
-import { Directive, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, AfterViewInit} from '@angular/core';
 
 @Directive({
-  selector: '[appDragResize]',
+  selector: '[Resizable]',
   standalone: true
 })
-export class DragResizeDirective implements AfterViewInit {
-  private isDragging = false;
+export class Resizable implements AfterViewInit {
   private isResizing = false;
   private resizeDirection: string = '';
   private startX = 0;
@@ -14,7 +13,8 @@ export class DragResizeDirective implements AfterViewInit {
   private startHeight = 0;
   private startLeft = 0;
   private startTop = 0;
-  private resizeThreshold = 8;
+  private resizeThreshold = 15;
+
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -22,7 +22,7 @@ export class DragResizeDirective implements AfterViewInit {
     const element = this.elementRef.nativeElement;
 
     const onMouseMove = (event: MouseEvent) => {
-      if (this.isDragging || this.isResizing) return;
+      if (this.isResizing) return;
 
       const rect = element.getBoundingClientRect();
       const { clientX, clientY } = event;
@@ -60,16 +60,6 @@ export class DragResizeDirective implements AfterViewInit {
 
         document.addEventListener('mousemove', onMouseMoveResize);
         document.addEventListener('mouseup', onMouseUpResize);
-      } else {
-        this.isDragging = true;
-
-        this.startX = event.clientX;
-        this.startY = event.clientY;
-        this.startLeft = element.offsetLeft;
-        this.startTop = element.offsetTop;
-
-        document.addEventListener('mousemove', onMouseMoveDrag);
-        document.addEventListener('mouseup', onMouseUpDrag);
       }
     };
 
@@ -101,22 +91,6 @@ export class DragResizeDirective implements AfterViewInit {
       document.removeEventListener('mousemove', onMouseMoveResize);
       document.removeEventListener('mouseup', onMouseUpResize);
       this.renderer.setStyle(document.body, 'cursor', 'default');
-    };
-
-    const onMouseMoveDrag = (event: MouseEvent) => {
-      if (!this.isDragging) return;
-
-      const deltaX = event.clientX - this.startX;
-      const deltaY = event.clientY - this.startY;
-
-      this.renderer.setStyle(element, 'left', `${this.startLeft + deltaX}px`);
-      this.renderer.setStyle(element, 'top', `${this.startTop + deltaY}px`);
-    };
-
-    const onMouseUpDrag = () => {
-      this.isDragging = false;
-      document.removeEventListener('mousemove', onMouseMoveDrag);
-      document.removeEventListener('mouseup', onMouseUpDrag);
     };
 
     this.renderer.listen(element, 'mousemove', onMouseMove);

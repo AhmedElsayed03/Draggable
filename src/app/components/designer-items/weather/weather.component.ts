@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import { DragResizeDirective } from '../../../directives/drag-resize.directive';
+import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
+import { Resizable } from '../../../directives/resizable.directive';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [DragResizeDirective],
+  imports: [CdkDrag, DragDropModule, Resizable],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css'
 })
