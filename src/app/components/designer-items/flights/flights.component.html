@@ -1,6 +1,7 @@
-<ng-container cdkDragBoundary=".workspace"   cdkDrag>
 
-<div class="dynamic-item"  DragResizeDirective >
+<div class="dynamic-item" cdkDrag cdkDragBoundary=".workspace" Resizable>
+  <div class="drag-handle" cdkDragHandle>
+  </div>
     <div class="flight-info">
       <h3>Flight Details</h3>
       <input type="text" name="text" id="text">
@@ -10,10 +11,17 @@
       <p><strong>Destination:</strong> London (LHR)</p>
       <p><strong>Status:</strong> On Time</p>
     </div>
-    <div class="resizer top"></div>
-    <div class="resizer right"></div>
-    <div class="resizer bottom"></div>
-    <div class="resizer left"></div>
+    <div
+    class="resize-handle top"
+  ></div>
+  <div
+    class="resize-handle right"
+  ></div>
+  <div
+    class="resize-handle bottom"
+  ></div>
+  <div
+    class="resize-handle left"
+  ></div>
   </div>
-<ng-container>
 
