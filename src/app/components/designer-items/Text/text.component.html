@@ -1,6 +1,8 @@
 <div class="dynamic-item"  cdkDragBoundary=".workspace" cdkDrag  >
     <div class="text-info">
-      <input type="text" name="text" id="text">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+
+      <ngx-editor [editor]="editor" [ngModel]="html"></ngx-editor>
     </div>
     <div class="resizer top"></div>
     <div class="resizer right"></div>
