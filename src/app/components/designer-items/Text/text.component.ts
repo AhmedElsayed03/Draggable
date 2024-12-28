@@ -1,41 +1,56 @@
 import { Component } from '@angular/core';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
-import { QuillEditorComponent, QuillModules } from 'ngx-quill';
-import Quill from 'quill';
+import { HttpClientModule} from '@angular/common/http';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 
-const Font: any = Quill.import('formats/font');
 
-// Define custom font whitelist
-Font.whitelist = ['arial', 'verdana', 'times-new-roman', 'courier', 'roboto']; 
-Quill.register(Font, true);
 
 
 @Component({
   selector: 'app-text',
   standalone: true,
-  imports: [CdkDrag, FormsModule, QuillEditorComponent],
+  imports: [CdkDrag, FormsModule, HttpClientModule, AngularEditorModule],
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css']
 })
 
 
 export class TextComponent {
-  content = '';
+  name = 'Angular 6';
+  htmlContent = '';
 
-  quillConfig = {
-    toolbar: [
-      ['bold', 'italic', 'underline'], // Text styles
-      [{ font: [] }], // Font dropdown
-      [{ size: ['small', false, 'large', 'huge'] }], // Font sizes
-      [{ color: [] }, { background: [] }], // Color options
-      [{ list: 'ordered' }, { list: 'bullet' }], // Lists
-      ['clean'] // Clear formatting
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    fonts: [
+    {class: 'arial', name: 'Arial'},
+    {class: 'calibri', name: 'Calibri'},
+    {class: 'comic-sans-ms', name: 'Comic Sans MS'}],
+    toolbarHiddenButtons: [
+      ['bold']
+      ],
+    customClasses: [
+      {
+        name: "quote",
+        class: "quote",
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: "titleText",
+        class: "titleText",
+        tag: "h1",
+      },
     ]
   };
   
-
-  created(editor: any) {
-    console.log('Editor created:', editor);
-  }
 }

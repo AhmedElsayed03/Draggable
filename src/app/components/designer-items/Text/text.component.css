@@ -1,60 +1,21 @@
-.dynamic-item {
+.floating-menu-container {
   position: absolute;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #eaf4fc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-.text-info h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
-  color: #003366;
-}
-
-.text-info p {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #333;
-}
-
-.resizer {
+.floating-menu {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #0066cc;
-  z-index: 10;
+  top: -30px; /* Adjust as needed */
+  right: 0;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.resizer.top {
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: ns-resize;
-}
-
-.resizer.right {
-  top: 50%;
-  right: -5px;
-  transform: translateY(-50%);
-  cursor: ew-resize;
-}
-
-.resizer.bottom {
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: ns-resize;
-}
-
-.resizer.left {
-  top: 50%;
-  left: -5px;
-  transform: translateY(-50%);
-  cursor: ew-resize;
-}
-
-.ql-editor {
-  font-family: 'Arial', 'Verdana', 'Times New Roman', 'Courier', 'Roboto', sans-serif;
+.floating-menu button {
+  margin: 5px;
 }

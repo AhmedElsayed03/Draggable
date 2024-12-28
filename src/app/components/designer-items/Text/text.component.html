@@ -1,9 +1,8 @@
 <div class="dynamic-item" cdkDragBoundary=".workspace" cdkDrag>
-  <div class="text-info">
-    <!-- Quill Editor -->
-    <quill-editor [modules]="quillConfig" [(ngModel)]="content"></quill-editor>
 
-  </div>
+    <angular-editor [(ngModel)]="htmlContent" [config]="config"></angular-editor>
+
+
 
   <div class="resizer top"></div>
   <div class="resizer right"></div>
