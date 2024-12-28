@@ -1,3 +1,4 @@
+@import '"./node_modules/font-awesome/css/font-awesome.min.css"';
 .dynamic-item {
     position: absolute;
     padding: 15px;
@@ -56,5 +57,6 @@
     cursor: ew-resize;
   }
 
-  
-  
+ .ql-editor {
+  font-family: 'Roboto', sans-serif;
+}

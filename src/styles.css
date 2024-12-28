@@ -18,3 +18,13 @@
     font-family: "PoppinsEL";
     src: url('assets/font/Poppins-ExtraLight.ttf') format('truetype');
   }
+
+/* Force the font to be applied to the Quill editor */
+.ql-editor {
+  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+}
+
+/* Force font options in the dropdown */
+.ql-picker.ql-font .ql-picker-item {
+  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+}
