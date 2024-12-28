@@ -1,30 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 
 @font-face {
-    font-family: "Poppins";
-    src: url('/assets/font/Poppins-Regular.ttf') format('truetype');
-  }
-  @font-face {
-    font-family: "PoppinsB";
-    src: url('/assets/font/Poppins-Bold.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: "PoppinsL";
-    src: url('assets/font/Poppins-Light.ttf') format('truetype');
-  }
-
-  @font-face {
-    font-family: "PoppinsEL";
-    src: url('assets/font/Poppins-ExtraLight.ttf') format('truetype');
-  }
-
-/* Force the font to be applied to the Quill editor */
-.ql-editor {
-  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+  font-family: 'Arial';
+  src: local('Arial'), url('/path-to-font/arial.woff') format('woff');
 }
 
-/* Force font options in the dropdown */
-.ql-picker.ql-font .ql-picker-item {
-  font-family: 'Roboto', 'Open Sans', sans-serif !important;
+@font-face {
+  font-family: 'Verdana';
+  src: local('Verdana'), url('/path-to-font/verdana.woff') format('woff');
 }
+
+@font-face {
+  font-family: 'Times New Roman';
+  src: local('Times New Roman'), url('/path-to-font/times-new-roman.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Courier';
+  src: local('Courier'), url('/path-to-font/courier.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: local('Roboto'), url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap') format('woff');
+}
+

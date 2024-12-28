@@ -3,6 +3,7 @@ import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import { TextComponent } from '../designer-items/Text/text.component';
+import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
 
 @Component({
   selector: 'app-workspace',
@@ -27,6 +28,9 @@ export class WorkspaceComponent {
       case 'text':
         component = TextComponent;
         break;
+        case 'CustomEditor':
+          component = CustomEditorComponent;
+          break;
 
     }
 

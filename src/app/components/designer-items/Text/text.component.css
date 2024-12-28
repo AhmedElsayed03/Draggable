@@ -1,62 +1,60 @@
-@import '"./node_modules/font-awesome/css/font-awesome.min.css"';
 .dynamic-item {
-    position: absolute;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #eaf4fc;
+  position: absolute;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #eaf4fc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .text-info h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #003366;
-  }
-  
-  .text-info p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .resizer {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #0066cc;
-    z-index: 10;
-  }
-  
-  .resizer.top {
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-  }
-  
-  .resizer.right {
-    top: 50%;
-    right: -5px;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-  }
-  
-  .resizer.bottom {
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: ns-resize;
-  }
-  
-  .resizer.left {
-    top: 50%;
-    left: -5px;
-    transform: translateY(-50%);
-    cursor: ew-resize;
-  }
+.text-info h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #003366;
+}
 
- .ql-editor {
-  font-family: 'Roboto', sans-serif;
+.text-info p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.resizer {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #0066cc;
+  z-index: 10;
+}
+
+.resizer.top {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.resizer.right {
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.resizer.bottom {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: ns-resize;
+}
+
+.resizer.left {
+  top: 50%;
+  left: -5px;
+  transform: translateY(-50%);
+  cursor: ew-resize;
+}
+
+.ql-editor {
+  font-family: 'Arial', 'Verdana', 'Times New Roman', 'Courier', 'Roboto', sans-serif;
 }
