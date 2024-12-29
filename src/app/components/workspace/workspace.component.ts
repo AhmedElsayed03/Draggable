@@ -6,6 +6,8 @@ import { TextComponent } from '../designer-items/Text/text.component';
 import { Resizable } from '../../directives/resizable.directive';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
+import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
+
 @Component({
   selector: 'app-workspace',
   standalone: true,

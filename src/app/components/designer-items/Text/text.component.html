@@ -1,9 +1,11 @@
-<div class="dynamic-item"  cdkDragBoundary=".workspace" cdkDrag  >
-    <div class="text-info">
-      <input type="text" name="text" id="text">
-    </div>
-    <div class="resizer top"></div>
-    <div class="resizer right"></div>
-    <div class="resizer bottom"></div>
-    <div class="resizer left"></div>
-  </div>
+<div class="dynamic-item" cdkDragBoundary=".workspace" cdkDrag>
+
+    <angular-editor [(ngModel)]="htmlContent" [config]="config"></angular-editor>
+
+
+
+  <div class="resizer top"></div>
+  <div class="resizer right"></div>
+  <div class="resizer bottom"></div>
+  <div class="resizer left"></div>
+</div>

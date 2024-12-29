@@ -19,6 +19,12 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@kolkov/angular-editor": "^3.0.0-beta.2",
+    "angular-font-awesome": "^3.1.2",
+    "ngx-editor": "^18.0.0",
+    "ngx-quill": "^27.0.0",
+    "primeng": "^15.4.1",
+    "quill": "^2.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
