@@ -7,6 +7,7 @@ import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { Resizable } from '../../directives/resizable.directive';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
 import { TextComponent } from '../designer-items/Text/text.component';
+import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
 
 @Component({
   selector: 'app-home',
@@ -41,6 +42,9 @@ export class HomeComponent {
         case 'text':
           component = TextComponent;
           break;
+          case 'CustomEditor':
+            component = CustomEditorComponent;
+            break;
       }
   
       if (component && this.workspace) {
