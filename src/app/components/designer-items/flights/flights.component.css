@@ -1,76 +1,23 @@
-.dynamic-item {
-    width: 230px;
-    height: 250px;
-    background-color: #eaf4fc;
-    position: relative;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .flight-info h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #003366;
-  }
-  
-  .flight-info p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .resize-handle {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0%;
-  }
-  
-  .resize-handle.top {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    cursor: n-resize;
-  }
-  
-  .resize-handle.right {
-    top: 0;
-    right: 0;
-    width: 10px;
-    height: 100%;
-    cursor: e-resize;
-  }
-  
-  .resize-handle.bottom {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
-    cursor: s-resize;
-  }
-  
-  .resize-handle.left {
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 100%;
-    cursor: w-resize;
-  }
-  
-  .drag-handle {
-    background: #55ff00;
-    color: white;
-    cursor: grab;
-    opacity: 0%;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  
+:host { 
+  position: absolute;
+  width: 250px;
+  height: 100px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.draggingArea{
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  background-color: rgb(252, 235, 214);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: poppins;
+  font-size: 15px;
+}

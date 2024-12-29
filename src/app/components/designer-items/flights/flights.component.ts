@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import {CdkDrag, DragDropModule} from '@angular/cdk/drag-drop';
-import { Resizable } from '../../../directives/resizable.directive';
+import {CdkDragHandle} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-flights',
   standalone: true,
-  imports: [CdkDrag, DragDropModule, Resizable],
+  imports: [CdkDragHandle],
   templateUrl: './flights.component.html',
   styleUrl: './flights.component.css'
 })

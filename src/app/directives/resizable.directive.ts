@@ -5,16 +5,17 @@ import { Directive, ElementRef, Renderer2, AfterViewInit} from '@angular/core';
   standalone: true
 })
 export class Resizable implements AfterViewInit {
-  private isResizing = false;
-  private resizeDirection: string = '';
-  private startX = 0;
+  private isResizing = false; //Tracks whether the user is currently resizing the element
+  private resizeDirection: string = ''; //Indicates the direction of the resizing (e.g., top, right, bottom, left).
+  private startX = 0; //Mouse's initial position at the start of resizing.
   private startY = 0;
-  private startWidth = 0;
+  private startWidth = 0; //Element's dimensions at the start of resizing.
   private startHeight = 0;
-  private startLeft = 0;
+  private startLeft = 0; //Element's position at the start of resizing.
   private startTop = 0;
-  private resizeThreshold = 15;
+  private resizeThreshold = 10; //Distance (in pixels) from the edge of the element where resizing is activated.
 
+  
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -27,12 +28,17 @@ export class Resizable implements AfterViewInit {
       const rect = element.getBoundingClientRect();
       const { clientX, clientY } = event;
 
+      this.resizeDirection = '';
       const isTop = clientY - rect.top <= this.resizeThreshold;
       const isRight = rect.right - clientX <= this.resizeThreshold;
       const isBottom = rect.bottom - clientY <= this.resizeThreshold;
       const isLeft = clientX - rect.left <= this.resizeThreshold;
 
-      this.resizeDirection = '';
+      // console.log("Left: " + rect.left);
+      // console.log("Top: " + rect.top);
+      // console.log("Right: " + rect.right);
+      // console.log("Bottom: " + rect.bottom);
+      // console.log("-------------------------------");
 
       if (isTop) this.resizeDirection += 'top';
       if (isRight) this.resizeDirection += 'right';
@@ -41,12 +47,14 @@ export class Resizable implements AfterViewInit {
 
       if (this.resizeDirection) {
         const cursorStyle = this.getCursorStyle(this.resizeDirection);
-        this.renderer.setStyle(document.body, 'cursor', cursorStyle);
+        this.renderer.setStyle(element, 'cursor', cursorStyle);
       } else {
-        this.renderer.setStyle(document.body, 'cursor', 'default');
+        this.renderer.setStyle(element, 'cursor', 'default');
       }
+
     };
 
+    //Event when Clicking
     const onMouseDown = (event: MouseEvent) => {
       if (this.resizeDirection) {
         this.isResizing = true;
@@ -62,40 +70,90 @@ export class Resizable implements AfterViewInit {
         document.addEventListener('mouseup', onMouseUpResize);
       }
     };
+    
+      
+  // Event when mouse clicked and moving
+  const onMouseMoveResize = (event: MouseEvent) => {
+  const rect = element.getBoundingClientRect();
+  const parentRect = element.parentElement.getBoundingClientRect(); // Get parent dimensions (app-workspace)
 
-    const onMouseMoveResize = (event: MouseEvent) => {
-      if (!this.isResizing) return;
+  if (!this.isResizing || !parentRect) return;
 
-      const deltaX = event.clientX - this.startX;
-      const deltaY = event.clientY - this.startY;
+  const deltaX = event.clientX - this.startX;
+  const deltaY = event.clientY - this.startY;
 
-      if (this.resizeDirection.includes('top')) {
-        this.renderer.setStyle(element, 'height', `${this.startHeight - deltaY}px`);
-        this.renderer.setStyle(element, 'top', `${this.startTop + deltaY}px`);
-      }
-      if (this.resizeDirection.includes('right')) {
-        this.renderer.setStyle(element, 'width', `${this.startWidth + deltaX}px`);
-      }
-      if (this.resizeDirection.includes('bottom')) {
-        this.renderer.setStyle(element, 'height', `${this.startHeight + deltaY}px`);
-      }
-      if (this.resizeDirection.includes('left')) {
-        this.renderer.setStyle(element, 'width', `${this.startWidth - deltaX}px`);
-        this.renderer.setStyle(element, 'left', `${this.startLeft + deltaX}px`);
-      }
-    };
+  // console.log("startX: " + this.startX);
+  // console.log("clientX: " + event.clientX);
+  // console.log("startWidth: " + this.startWidth);
+  // console.log("deltaX: " + deltaX);
+  // console.log("-------------------------------");
 
+
+
+
+  if (this.resizeDirection.includes('top')) {
+    const newTop = this.startTop + deltaY;
+    const newHeight = this.startHeight - deltaY;
+
+    console.log("Parent Top: " + parentRect.top);
+    console.log("Top: " + rect.top);
+    if (newTop >= 0) {
+      this.renderer.setStyle(element, 'height', `${newHeight}px`);
+      this.renderer.setStyle(element, 'top', `${newTop}px`);
+    }
+  }
+
+  if (this.resizeDirection.includes('right')) {
+    const newWidth = this.startWidth + deltaX;
+
+    if (rect.left + newWidth <= parentRect.right) {
+      this.renderer.setStyle(element, 'width', `${newWidth}px`);
+    }
+  }
+
+  if (this.resizeDirection.includes('bottom')) {
+    const newHeight = this.startHeight + deltaY;
+
+    // console.log("Parent Bottom: " + parentRect.bottom);
+    // console.log("Parent Top: " + parentRect.top);
+    // console.log("Parent Top + Height: " + (parentRect.top + parentRect.height));
+    
+    if (rect.top + newHeight <= parentRect.bottom) {
+      this.renderer.setStyle(element, 'height', `${newHeight}px`);
+    }
+  }
+
+  if (this.resizeDirection.includes('left')) {
+    const newLeft = this.startLeft + deltaX;
+    const newWidth = this.startWidth - deltaX;
+
+    if (newLeft >= 0) {
+      this.renderer.setStyle(element, 'width', `${newWidth}px`);
+      this.renderer.setStyle(element, 'left', `${newLeft}px`);
+    }
+  }
+  
+};
+
+
+    //Event when Clicking is released after resizing
     const onMouseUpResize = () => {
       this.isResizing = false;
       this.resizeDirection = '';
       document.removeEventListener('mousemove', onMouseMoveResize);
       document.removeEventListener('mouseup', onMouseUpResize);
-      this.renderer.setStyle(document.body, 'cursor', 'default');
+      this.renderer.setStyle(element, 'cursor', 'default');
     };
+
 
     this.renderer.listen(element, 'mousemove', onMouseMove);
     this.renderer.listen(element, 'mousedown', onMouseDown);
-  }
+
+  } //Closing bracket of AfterViewInit
+
+
+
+
 
   private getCursorStyle(direction: string): string {
     switch (direction) {
