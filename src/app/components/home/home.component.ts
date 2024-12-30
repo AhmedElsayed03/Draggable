@@ -9,6 +9,7 @@ import { FlightsComponent } from '../designer-items/flights/flights.component';
 import { TextComponent } from '../designer-items/Text/text.component';
 import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
 import { ImageComponent } from '../designer-items/image/image.component';
+import { ImgComponent } from '../designer-items/img/img.component';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +49,9 @@ export class HomeComponent {
           break;
         case 'image':
           component = ImageComponent;
+        break;
+        case 'img':
+          component = ImgComponent;
         break;
       }
   

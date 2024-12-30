@@ -8,11 +8,12 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 
 import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
 import { ImageComponent } from '../designer-items/image/image.component';
+import { ImgComponent } from '../designer-items/img/img.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable, TextComponent, CustomEditorComponent, ImageComponent],
+  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable, TextComponent, CustomEditorComponent, ImageComponent, ImgComponent],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })

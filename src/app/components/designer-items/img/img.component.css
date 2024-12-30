@@ -1,0 +1,19 @@
+:host {
+    display: block;
+    background-color: #00684b;
+    height: 100vh; 
+    width: 100vw;
+    /* display: flex;
+    justify-content: center; */
+}
+
+#resizable {
+    width: 100px;
+    height: 100px;
+    background: #7e1313;
+  }
+  
+  .img{
+    width: 100%;
+    height: 100%;
+  }

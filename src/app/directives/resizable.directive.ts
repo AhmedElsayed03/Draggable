@@ -69,53 +69,51 @@ export class Resizable implements AfterViewInit {
       
   // Event when mouse clicked and moving
   const onMouseMoveResize = (event: MouseEvent) => {
-  const rect = element.getBoundingClientRect();
-  const parentRect = element.parentElement.getBoundingClientRect(); // Get parent dimensions (app-workspace)
-
-  if (!this.isResizing || !parentRect) return;
-
-  const deltaX = event.clientX - this.startX;
-  const deltaY = event.clientY - this.startY;
-
-  if (this.resizeDirection.includes('top')) {
-    const newTop = this.startTop + deltaY;
-    const newHeight = this.startHeight - deltaY;
-
-    console.log("Parent Top: " + parentRect.top);
-    console.log("Top: " + rect.top);
-    if (newTop >= 0) {
-      this.renderer.setStyle(element, 'height', `${newHeight}px`);
-      this.renderer.setStyle(element, 'top', `${newTop}px`);
-    }
-  }
-
-  if (this.resizeDirection.includes('right')) {
-    const newWidth = this.startWidth + deltaX;
-
-    if (rect.left + newWidth <= parentRect.right) {
-      this.renderer.setStyle(element, 'width', `${newWidth}px`);
-    }
-  }
-
-  if (this.resizeDirection.includes('bottom')) {
-    const newHeight = this.startHeight + deltaY;
-    if (rect.top + newHeight <= parentRect.bottom) {
-      this.renderer.setStyle(element, 'height', `${newHeight}px`);
-    }
-  }
-
-  if (this.resizeDirection.includes('left')) {
-    const newLeft = this.startLeft + deltaX;
-    const newWidth = this.startWidth - deltaX;
-
-    if (newLeft >= 0) {
-      this.renderer.setStyle(element, 'width', `${newWidth}px`);
-      this.renderer.setStyle(element, 'left', `${newLeft}px`);
-    }
-  }
+    const rect = element.getBoundingClientRect();
+    const parentRect = element.parentElement.getBoundingClientRect();
   
-};
-
+    if (!this.isResizing || !parentRect) return;
+  
+    const deltaX = event.clientX - this.startX;
+    const deltaY = event.clientY - this.startY;
+  
+    if (this.resizeDirection.includes('top')) {
+      const newHeight = this.startHeight - deltaY;
+      const newTop = this.startTop + deltaY;
+  
+      if (newHeight >= this.resizeThreshold && newTop >= parentRect.top - rect.top) {
+        this.renderer.setStyle(element, 'height', `${newHeight}px`);
+        this.renderer.setStyle(element, 'top', `${newTop}px`);
+      }
+    }
+  
+    if (this.resizeDirection.includes('right')) {
+      const newWidth = this.startWidth + deltaX;
+  
+      if (newWidth >= this.resizeThreshold && rect.left + newWidth <= parentRect.right) {
+        this.renderer.setStyle(element, 'width', `${newWidth}px`);
+      }
+    }
+  
+    if (this.resizeDirection.includes('bottom')) {
+      const newHeight = this.startHeight + deltaY;
+  
+      if (newHeight >= this.resizeThreshold && rect.top + newHeight <= parentRect.bottom) {
+        this.renderer.setStyle(element, 'height', `${newHeight}px`);
+      }
+    }
+  
+    if (this.resizeDirection.includes('left')) {
+      const newWidth = this.startWidth - deltaX;
+      const newLeft = this.startLeft + deltaX;
+  
+      if (newWidth >= this.resizeThreshold && newLeft >= parentRect.left - rect.left) {
+        this.renderer.setStyle(element, 'width', `${newWidth}px`);
+        this.renderer.setStyle(element, 'left', `${newLeft}px`);
+      }
+    }
+  };
+  
 
     //Event when Clicking is released after resizing
     const onMouseUpResize = () => {
