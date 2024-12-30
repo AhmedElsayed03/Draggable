@@ -1,0 +1,13 @@
+<div
+  class="image-container"
+  (mousedown)="onMouseDown()"
+  (mouseup)="onMouseUp()"
+  (cdkDragStarted)="onDragStarted()"
+  (cdkDragEnded)="onDragEnded()"
+  cdkDrag
+  cdkDragBoundary=".workspace"
+  Resizable
+>
+  <img [src]="imageSrc" alt="Upload placeholder" class="image-placeholder" />
+  <input type="file" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
+</div>

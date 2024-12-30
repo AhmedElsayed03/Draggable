@@ -8,6 +8,7 @@ import { Resizable } from '../../directives/resizable.directive';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
 import { TextComponent } from '../designer-items/Text/text.component';
 import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
+import { ImageComponent } from '../designer-items/image/image.component';
 
 @Component({
   selector: 'app-home',
@@ -42,9 +43,12 @@ export class HomeComponent {
         case 'text':
           component = TextComponent;
           break;
-          case 'CustomEditor':
+        case 'CustomEditor':
             component = CustomEditorComponent;
-            break;
+          break;
+        case 'image':
+          component = ImageComponent;
+        break;
       }
   
       if (component && this.workspace) {

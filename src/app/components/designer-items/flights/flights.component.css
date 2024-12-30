@@ -10,10 +10,10 @@
 
 .draggingArea{
   position: absolute;
-  top: 15px;
-  bottom: 15px;
-  left: 15px;
-  right: 15px;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
   background-color: rgb(252, 235, 214);
   display: flex;
   justify-content: center;

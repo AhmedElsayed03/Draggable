@@ -7,11 +7,12 @@ import { Resizable } from '../../directives/resizable.directive';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 
 import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
+import { ImageComponent } from '../designer-items/image/image.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable],
+  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable, TextComponent, CustomEditorComponent, ImageComponent],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
@@ -32,15 +33,17 @@ export class WorkspaceComponent {
   addComponent(componentType: Type<any>) {
     if (this.container) {
       this.container.createComponent(componentType);
-      // const hostElement = createdComponent.location.nativeElement;
-      // this.applyDirectivesAndBindings(hostElement);
-      // const dragRef = this.dragDrop.createDrag(hostElement);
-
-      // dragRef.withBoundaryElement(document.querySelector('.workspace') as HTMLElement);
-      // this.applyResizableDirective(hostElement);
+      
     }
   }
 
+  // const hostElement = createdComponent.location.nativeElement;
+  // this.applyDirectivesAndBindings(hostElement);
+  // const dragRef = this.dragDrop.createDrag(hostElement);
+
+  // dragRef.withBoundaryElement(document.querySelector('.workspace') as HTMLElement);
+  // this.applyResizableDirective(hostElement);
+  
   
   private applyDirectivesAndBindings(element: HTMLElement) {
     this.renderer.setAttribute(element, 'cdkDrag', '');

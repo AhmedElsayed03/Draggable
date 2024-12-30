@@ -12,9 +12,9 @@
     imports: [
       CommonModule,
       ReactiveFormsModule,
-      NgxEditorModule,
       Resizable,
       CdkDrag, DragDropModule,
+      NgxEditorModule
     ],
     styleUrls: ['./custom-editor.component.css'],
     encapsulation: ViewEncapsulation.None,
@@ -42,6 +42,7 @@
         keyboardShortcuts: true,
         inputRules: true,
       });
+      console.log();
     }
 
     ngOnDestroy(): void {

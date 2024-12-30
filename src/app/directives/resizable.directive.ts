@@ -4,6 +4,7 @@ import { Directive, ElementRef, Renderer2, AfterViewInit} from '@angular/core';
   selector: '[Resizable]',
   standalone: true
 })
+
 export class Resizable implements AfterViewInit {
   private isResizing = false; //Tracks whether the user is currently resizing the element
   private resizeDirection: string = ''; //Indicates the direction of the resizing (e.g., top, right, bottom, left).
@@ -13,7 +14,7 @@ export class Resizable implements AfterViewInit {
   private startHeight = 0;
   private startLeft = 0; //Element's position at the start of resizing.
   private startTop = 0;
-  private resizeThreshold = 10; //Distance (in pixels) from the edge of the element where resizing is activated.
+  private resizeThreshold = 5; //Distance (in pixels) from the edge of the element where resizing is activated.
 
   
 
@@ -33,12 +34,6 @@ export class Resizable implements AfterViewInit {
       const isRight = rect.right - clientX <= this.resizeThreshold;
       const isBottom = rect.bottom - clientY <= this.resizeThreshold;
       const isLeft = clientX - rect.left <= this.resizeThreshold;
-
-      // console.log("Left: " + rect.left);
-      // console.log("Top: " + rect.top);
-      // console.log("Right: " + rect.right);
-      // console.log("Bottom: " + rect.bottom);
-      // console.log("-------------------------------");
 
       if (isTop) this.resizeDirection += 'top';
       if (isRight) this.resizeDirection += 'right';
@@ -82,15 +77,6 @@ export class Resizable implements AfterViewInit {
   const deltaX = event.clientX - this.startX;
   const deltaY = event.clientY - this.startY;
 
-  // console.log("startX: " + this.startX);
-  // console.log("clientX: " + event.clientX);
-  // console.log("startWidth: " + this.startWidth);
-  // console.log("deltaX: " + deltaX);
-  // console.log("-------------------------------");
-
-
-
-
   if (this.resizeDirection.includes('top')) {
     const newTop = this.startTop + deltaY;
     const newHeight = this.startHeight - deltaY;
@@ -113,11 +99,6 @@ export class Resizable implements AfterViewInit {
 
   if (this.resizeDirection.includes('bottom')) {
     const newHeight = this.startHeight + deltaY;
-
-    // console.log("Parent Bottom: " + parentRect.bottom);
-    // console.log("Parent Top: " + parentRect.top);
-    // console.log("Parent Top + Height: " + (parentRect.top + parentRect.height));
-    
     if (rect.top + newHeight <= parentRect.bottom) {
       this.renderer.setStyle(element, 'height', `${newHeight}px`);
     }
