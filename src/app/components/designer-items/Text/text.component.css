@@ -19,3 +19,8 @@
 .floating-menu button {
   margin: 5px;
 }
+.dynamic-item {
+  min-width: 200px; /* Adjust this value based on your preference */
+  background: none; /* Removes the background */
+  border: none; /* If you want to remove the border as well */
+}
