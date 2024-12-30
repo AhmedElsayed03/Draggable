@@ -1,4 +1,7 @@
-<div id="resizable">
-    <img class="img" src="../../../../assets/Summit Logo picture.png"> 
-</div>
+
+    <div id="resizable"   (mousedown)="onMouseDown()" (mouseup)="onMouseUp()"  >
+          <img [src]="imageSrc" alt="Upload placeholder" class="img" />
+        <input type="file" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
+    </div>
+
  

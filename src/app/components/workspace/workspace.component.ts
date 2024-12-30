@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, Type, Renderer2, Injector, ElementRef } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, Type, Renderer2, Injector, ElementRef, OnInit } from '@angular/core';
 import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
 import { DragDropModule, CdkDragMove, DragDrop, DragRef } from '@angular/cdk/drag-drop';
@@ -17,7 +17,7 @@ import { ImgComponent } from '../designer-items/img/img.component';
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
-export class WorkspaceComponent {
+export class WorkspaceComponent{
   @ViewChild('workspaceContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
 
   private x = 0;
@@ -28,7 +28,8 @@ export class WorkspaceComponent {
   constructor(
     private renderer: Renderer2,
     private dragDrop: DragDrop,
-    private injector: Injector
+    private injector: Injector,
+    private elementRef: ElementRef
   ) {}
 
   addComponent(componentType: Type<any>) {
@@ -37,6 +38,8 @@ export class WorkspaceComponent {
       
     }
   }
+
+
 
   // const hostElement = createdComponent.location.nativeElement;
   // this.applyDirectivesAndBindings(hostElement);
