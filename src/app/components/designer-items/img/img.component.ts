@@ -11,7 +11,7 @@ declare const $: any; // Declare jQuery
   templateUrl: './img.component.html',
   styleUrl: './img.component.css'
 })
-export class ImgComponent implements OnInit {
+export class ImgComponent{
 
   constructor(private elementRef: ElementRef) {}
 
@@ -59,12 +59,14 @@ export class ImgComponent implements OnInit {
     this.isDragging = false;
   }
   
-  ngOnInit(): void {
-    const resizableElement = this.elementRef.nativeElement.querySelector('#resizable');
+  // ngOnInit(): void {
+  //   const resizableElement = this.elementRef.nativeElement.querySelector('#resizable');
 
-    $(resizableElement).resizable({
-      handles: "n, e, s, w", // Define resizable handles'
-      containment: "#parent"
-    }).draggable();
-  }
+  //   $(resizableElement).resizable({
+  //     handles: "n, e, s, w", // Define resizing handles'
+  //     containment: ".workspace" //Resizing Boundry
+  //   }).draggable({
+  //     containment: ".workspace" //Dragging Boundry
+  //   })
+  // }
 }
