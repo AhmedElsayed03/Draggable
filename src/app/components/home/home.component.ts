@@ -10,6 +10,8 @@ import { TextComponent } from '../designer-items/Text/text.component';
 import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
 import { ImageComponent } from '../designer-items/image/image.component';
 import { ImgComponent } from '../designer-items/img/img.component';
+import { AreaComponent } from '../designer-items/area/area.component';
+
 
 @Component({
   selector: 'app-home',
@@ -53,8 +55,11 @@ export class HomeComponent {
         case 'img':
           component = ImgComponent;
         break;
+        case 'area':
+          component = AreaComponent;
+        break;
       }
-  
+      
       if (component && this.workspace) {
         this.workspace.addComponent(component);
       }

@@ -1,9 +1,9 @@
 :host { 
   display: block;
-  background-color: #d3fbff;
+  background-color: #e0fcff;
   position: relative;
-  width: 1400px;        
-  height: 500px;
-  top: 30px;
-  left: 60px;
+  width: 900px;        
+  height: 200px;
+  left: 30px;
+  top: 40px
 }
