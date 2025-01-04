@@ -1,7 +1,14 @@
 <div #workspaceContainer>
     
 </div>
-<!-- 
-<app-img cdkDragBoundary=".workspace" (cdkDragMoved)="onDragMoved($event)" cdkDrag>
+<div
+*ngFor="let item of draggableItems"
+cdkDrag
+(cdkDragMoved)="onDragMoved($event, item)"
+class="dynamic-item"
+>
+<p>{{ item.content }}</p>
+</div>
 
-</app-img> -->
+<button (click)="saveAllItems()" class="save-button">Save Changes</button>
+

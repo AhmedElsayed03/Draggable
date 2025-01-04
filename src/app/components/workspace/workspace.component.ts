@@ -11,18 +11,57 @@ import { ImageComponent } from '../designer-items/image/image.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { ResizeDragDirective } from '../../directives/resize-drag.directive';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DraggableItem } from '../../../models/draggable-item';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable, TextComponent, CustomEditorComponent, ImageComponent, ImgComponent, AreaComponent, ResizeDragDirective],
+  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule , HttpClientModule , Resizable, TextComponent, CustomEditorComponent, ImageComponent, ImgComponent, AreaComponent, ResizeDragDirective],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
-export class WorkspaceComponent {
+export class WorkspaceComponent implements OnInit {
   @ViewChild('workspaceContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
 
-  constructor(private injector: Injector, private renderer: Renderer2) {}
+
+  draggableItems: DraggableItem[] = []; // List of all draggable items
+  modifiedItems: Set<DraggableItem> = new Set(); // Track only modified items
+
+
+  constructor(private injector: Injector, private renderer: Renderer2 ,private http: HttpClient) {}
+  ngOnInit(): void {
+    // this.loadItems();
+    }
+
+    onDragMoved(event: any, item: DraggableItem) {
+      const { x, y } = event.source.getFreeDragPosition();
+      item.position = { x, y };
+      this.modifiedItems.add(item); // Mark this item as modified
+    }
+  
+    saveAllItems() {
+      const itemsToSave = Array.from(this.modifiedItems);
+      if (itemsToSave.length === 0) {
+        console.log('No changes to save.');
+        return;
+      }
+  
+      this.http.post('https://localhost:7045/api/DraggableItems/save', itemsToSave).subscribe({
+        next: (response) => {
+          console.log('Items saved successfully!', response);
+          this.modifiedItems.clear(); // Clear the modified items set after saving
+        },
+        error: (err) => console.error('Error saving items:', err),
+      });
+    }
+  
+    // loadItems() {
+    //   this.http.get<DraggableItem[]>('https://localhost:7045/api/draggable-items').subscribe({
+    //     next: (items) => (this.draggableItems = items),
+    //     error: (err) => console.error('Error loading items:', err),
+    //   });
+    // }
 
   addComponent(componentType: Type<any>) {
     if (this.container) {
