@@ -1,5 +1,5 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef , Renderer2 } from '@angular/core';
 
 declare const $: any; // Declare jQuery
 
@@ -13,7 +13,7 @@ declare const $: any; // Declare jQuery
 })
 export class ImgComponent{
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef , private renderer: Renderer2) {}
 
   imageSrc: string = "../../../../assets/UploadImgPlaceHolder.jpeg"; // Default placeholder image
   isDragging: boolean = false;
@@ -34,7 +34,11 @@ export class ImgComponent{
     const fileInput = document.querySelector('input[type=file]') as HTMLInputElement;
     fileInput?.click();
   }
-
+  onDeleteClick(): void {
+    const parent = this.elementRef.nativeElement.parentNode;
+    this.renderer.removeChild(parent, this.elementRef.nativeElement);
+  }
+  
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
