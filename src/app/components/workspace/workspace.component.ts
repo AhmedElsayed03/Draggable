@@ -1,63 +1,61 @@
-import { Component, ViewChild, ViewContainerRef, Type, Renderer2, Injector, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-import { WeatherComponent } from '../designer-items/weather/weather.component';
-import { FlightsComponent } from '../designer-items/flights/flights.component';
-import { DragDropModule, CdkDragMove, DragDrop, DragRef } from '@angular/cdk/drag-drop';
-import { TextComponent } from '../designer-items/Text/text.component';
-import { Resizable } from '../../directives/resizable.directive';
-import { CdkDrag } from '@angular/cdk/drag-drop';
-
-import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
-import { ImageComponent } from '../designer-items/image/image.component';
-import { ImgComponent } from '../designer-items/img/img.component';
+import { Component, ViewContainerRef, Type, Renderer2, ElementRef } from '@angular/core';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { ResizeDragDirective } from '../../directives/resize-drag.directive';
+import { ParentAreaService } from '../../services/parent-area.service';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CdkDrag, WeatherComponent, FlightsComponent, DragDropModule, Resizable, TextComponent, CustomEditorComponent, ImageComponent, ImgComponent, AreaComponent, ResizeDragDirective],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
+  imports: [AreaComponent, ResizeDragDirective],
 })
 export class WorkspaceComponent {
-  @ViewChild('workspaceContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
+  private areaCounter = 0;
+  public areaIds: string[] = [];
+  private areaComponents: Map<string, AreaComponent> = new Map();
 
-  constructor(private injector: Injector, private renderer: Renderer2) {}
+  constructor(
+    private viewContainerRef: ViewContainerRef,
+    private renderer: Renderer2,
+    private parentAreaService: ParentAreaService
+  ) {}
 
-  addComponent(componentType: Type<any>) {
-    if (this.container) {
-      const createdComponent = this.container.createComponent(componentType);
-      const hostElement = createdComponent.location.nativeElement;
-      this.applyDirective(hostElement);
+  addToArea(componentType: Type<any>, areaId: string) {
+    const areaComponent = this.areaComponents.get(areaId);
+    if (!areaComponent) {
+      console.error(`Area with id ${areaId} not found.`);
+      return;
     }
+    areaComponent.addItem(componentType, areaId);
   }
 
-  private applyDirective(element: HTMLElement) {
-    const directive = new ResizeDragDirective(new ElementRef(element), this.injector);
+  addToWorkspace(componentType: Type<any>) {
+
+    const createdComponent = this.viewContainerRef.createComponent(componentType);
+    const hostElement = createdComponent.location.nativeElement;
+
+    // Special handling for AreaComponent (Adding Id for each created area)
+    if (componentType === AreaComponent) {
+      this.areaCounter++;
+      const newAreaId = `area.${this.areaCounter}`;
+      this.renderer.setAttribute(hostElement, 'id', newAreaId);
+      this.areaIds.push(newAreaId);
+
+      // Store reference to the created AreaComponent instance
+      this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+
+      // Update the service with the new areaId
+      this.parentAreaService.addAreaId(newAreaId);
+    }
+
+    // Append the created component directly to the WorkspaceComponent
+    const workspaceElement = this.viewContainerRef.element.nativeElement;
+    this.renderer.appendChild(workspaceElement, hostElement);
+
+
+    const directive = new ResizeDragDirective(new ElementRef(hostElement));
     directive.ngAfterViewInit();
+
   }
 }
-
- 
-
-  // dragRef.withBoundaryElement(document.querySelector('.workspace') as HTMLElement);
-  // this.applyResizableDirective(hostElement);
-  
-  
-
-  // onDragMoved = (event: CdkDragMove): void => {
-  //   const { x, y } = event.source.getFreeDragPosition();
-  //   this.x = x;
-  //   this.y = y;
-  //   console.log('x:', x, 'y:', y);
-  //   const draggableElement = event.source.element.nativeElement;
-  //   this.renderer.setStyle(draggableElement, 'top', `${y}px`);
-  //   this.renderer.setStyle(draggableElement, 'left', `${x}px`);
-  //   this.renderer.setStyle(draggableElement, 'transform', 'translate3d(0, 0, 0)');
-  // };
-
-  // private applyResizableDirective(element: HTMLElement) {
-  //   const resizableDirective = new Resizable({ nativeElement: element }, this.renderer);
-  //   resizableDirective.ngAfterViewInit();
-  // }
-

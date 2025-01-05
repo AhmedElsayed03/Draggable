@@ -17,7 +17,6 @@ export class Resizable implements AfterViewInit {
   private resizeThreshold = 5; //Distance (in pixels) from the edge of the element where resizing is activated.
 
   
-
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
   ngAfterViewInit() {

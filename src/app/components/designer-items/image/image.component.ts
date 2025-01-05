@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Resizable } from '../../../directives/resizable.directive';
 
 @Component({
   selector: 'app-image',
   standalone: true,
-  imports: [CdkDrag, Resizable],
+  imports: [],
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.css']
 })

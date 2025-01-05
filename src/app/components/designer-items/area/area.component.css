@@ -3,5 +3,6 @@
     position: absolute;
     width: 500px;
     height: 200px;
-    background-color: rgb(151, 151, 151);
+    background-color: rgb(190, 246, 255);
+    border-radius: 15px;
 }
