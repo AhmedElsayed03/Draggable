@@ -1,13 +1,13 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ElementRef , Renderer2 } from '@angular/core';
 
-declare const $: any; // Declare jQuery
+// declare const $: any; // Declare jQuery
 
 
 @Component({
   selector: 'app-img',
   standalone: true,
-  imports: [CdkDrag],
+  imports: [],
   templateUrl: './img.component.html',
   styleUrl: './img.component.css'
 })

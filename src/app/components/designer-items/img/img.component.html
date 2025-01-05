@@ -1,3 +1,4 @@
+
 <div id="resizable" (mousedown)="onMouseDown()" (mouseup)="onMouseUp()" class="resizable-container">
   <div class="image-container">
     <img [src]="imageSrc" alt="Upload placeholder" class="img" />
@@ -6,3 +7,4 @@
   <input type="file" class="upload" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
 
 </div>
+

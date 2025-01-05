@@ -1,0 +1,10 @@
+<div class="dropdown">
+    <label for="options">Choose a container:</label>
+    <select id="options" (change)="onAreaChange($event)">
+        <option>Click to expand</option>
+        <option value=".workspace">workspace</option>
+        @for( area of areas; track area){
+        <option [value]= "area">{{area}}</option>
+    }
+    </select>
+</div> 

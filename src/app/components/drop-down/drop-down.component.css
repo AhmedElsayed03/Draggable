@@ -1,0 +1,30 @@
+:host {
+    position: fixed;
+    top: 60vh;
+    left: 50vw;
+    z-index: 50;
+  }
+  
+  .dropdown {
+    max-width: 250px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .dropdown label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .dropdown select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    pointer-events: auto; /* Ensures the select options are clickable */
+  }
+  

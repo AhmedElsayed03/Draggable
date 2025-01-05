@@ -1,20 +1,20 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FlightsComponent } from '../designer-items/flights/flights.component';
-import { WeatherComponent } from '../designer-items/weather/weather.component';
-import { TextComponent } from '../designer-items/Text/text.component';
-
 
 @Component({
   selector: 'app-designer',
   standalone: true,
-  imports: [FlightsComponent,  WeatherComponent, TextComponent],
+  imports: [],
   templateUrl: './designer.component.html',
-  styleUrl: './designer.component.css'
+  styleUrls: ['./designer.component.css']
 })  
 export class DesignerComponent {
   @Output() componentType = new EventEmitter<string>();
+  @Output() showDropdown = new EventEmitter<void>();
 
   createComponent(type: string) {
+    if (type !== 'area') {
+      this.showDropdown.emit(); // Trigger the dropdown to show
+    }
     this.componentType.emit(type);
   }
 }

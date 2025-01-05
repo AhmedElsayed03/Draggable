@@ -1,2 +1,15 @@
-      <app-designer (componentType)="onAddComponent($event)"  ></app-designer>
+      @if(dropdownVisible){
+      <app-drop-down (areaSelected)="onAreaSelected($event)"></app-drop-down>
+      }
+      
+      <app-designer (componentType)="onAddComponent($event)"></app-designer>
+
       <app-workspace class="workspace"></app-workspace>
+
+
+
+
+      <!-- @if(error){
+
+            <app-alert [message]="error" (close)="onHandleError()"></app-alert>
+      } -->
