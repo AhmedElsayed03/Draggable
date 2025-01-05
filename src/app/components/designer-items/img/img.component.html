@@ -1,5 +1,10 @@
-    <div id="resizable" (mousedown)="onMouseDown()" (mouseup)="onMouseUp()">
-    <!-- <div (mousedown)="onMouseDown()" (mouseup)="onMouseUp()"> -->
-         <img [src]="imageSrc" alt="Upload placeholder" class="img" />
-        <input type="file" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
-    </div>
+
+<div id="resizable" (mousedown)="onMouseDown()" (mouseup)="onMouseUp()" class="resizable-container">
+  <div class="image-container">
+    <img [src]="imageSrc" alt="Upload placeholder" class="img" />
+    <span class="delete-icon" (click)="onDeleteClick()">&#x2716;</span>
+  </div>
+  <input type="file" class="upload" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
+
+</div>
+
