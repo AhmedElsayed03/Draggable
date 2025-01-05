@@ -11,6 +11,7 @@ import { CustomEditorComponent } from '../designer-items/custom-editor/custom-ed
 import { ImageComponent } from '../designer-items/image/image.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
+import { DraggableItem } from '../../../models/draggable-item';
 
 
 @Component({
@@ -20,48 +21,65 @@ import { AreaComponent } from '../designer-items/area/area.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
+
 export class HomeComponent {
+  private nextId = 1;
+  componentsList: DraggableItem[] = [];
 
-  private x = 0;
-  private y = 0;
-  element: any;
-  rect: any;
-
-  
-  
-  constructor() {}
-  
   @ViewChild(WorkspaceComponent) workspace!: WorkspaceComponent;
-  
-    onAddComponent(type: string) {
-      let component: Type<any> | null = null;
-  
-      switch (type) {
-        case 'weather':
-          component = WeatherComponent;
-          break;
-        case 'flights':
-          component = FlightsComponent;
-          break;
-        case 'text':
-          component = TextComponent;
-          break;
-        case 'CustomEditor':
-            component = CustomEditorComponent;
-          break;
-        case 'image':
-          component = ImageComponent;
+
+  constructor(private renderer: Renderer2) {}
+
+  onAddComponent(type: string) {
+    let component: Type<any> | null = null;
+
+    switch (type) {
+      case 'weather':
+        component = WeatherComponent;
         break;
-        case 'img':
-          component = ImgComponent;
+      case 'flights':
+        component = FlightsComponent;
         break;
-        case 'area':
-          component = AreaComponent;
+      case 'text':
+        component = TextComponent;
         break;
-      }
-      
-      if (component && this.workspace) {
-        this.workspace.addComponent(component);
+      case 'CustomEditor':
+        component = CustomEditorComponent;
+        break;
+      case 'image':
+        component = ImageComponent;
+        break;
+      case 'img':
+        component = ImgComponent;
+        break;
+      case 'area':
+        component = AreaComponent;
+        break;
+    }
+
+    if (component && this.workspace) {
+      const newComponent = new DraggableItem(this.nextId++, type);
+    
+      const createdElement = this.workspace.addComponent(component);
+    
+      if (createdElement instanceof HTMLElement) {
+
+        const rect = createdElement.getBoundingClientRect();
+        newComponent.position = { x: rect.x, y: rect.y };
+        newComponent.size = { width: rect.width, height: rect.height };
+    
+        console.log('Saving component data:', newComponent);
+    
+        this.componentsList.push(newComponent);
+      } else {
+        console.error('createdElement is not an HTMLElement.');
       }
     }
+    
   }
+
+  saveComponentById(id: number) {
+
+
+  }
+}

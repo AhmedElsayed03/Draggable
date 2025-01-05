@@ -68,6 +68,7 @@ export class WorkspaceComponent implements OnInit {
       const createdComponent = this.container.createComponent(componentType);
       const hostElement = createdComponent.location.nativeElement;
       this.applyDirective(hostElement);
+      return hostElement;
     }
   }
 
