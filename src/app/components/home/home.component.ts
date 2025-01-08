@@ -30,23 +30,23 @@ export class HomeComponent implements AfterViewInit   {
 
   error: string = "Something went wrong!";
   areaId: string = "";
-  dropdownVisible: boolean = false; // Control dropdown visibility
-
+  dropdownVisible: boolean = false; // Control dropdown visibilit
 
   @ViewChild(WorkspaceComponent) workspace!: WorkspaceComponent;
   @ViewChild(WorkspaceComponent) elementRef!: ElementRef;
-
   @ViewChild('templateReference') workspaceContainer!: ElementRef;
+  @ViewChild('perant', { static: false }) perantElement!: ElementRef;
 
   constructor(private renderer: Renderer2 , private elRef : ElementRef ) {}
   showWorkspace = true;
 
 
   ngAfterViewInit() {
-    if (this.elementRef) {
-      console.log(this.elementRef.nativeElement.innerHTML);
+    if (this.perantElement) {
+      const perantHtml = this.perantElement.nativeElement.innerHTML;
+      console.log('HTML content of #perant:', perantHtml);
     } else {
-      console.error('WorkspaceComponent is not initialized yet.');
+      console.error('Element with id "perant" is not found.');
     }
   }
 
@@ -83,10 +83,13 @@ export class HomeComponent implements AfterViewInit   {
 
     if (component === AreaComponent) {
       this.workspace.addToWorkspace(component);
+      this.ngAfterViewInit();
     }
 
     if (component !== AreaComponent) {
       this.dropdownVisible = true; // Show dropdown for selecting area
+      this.ngAfterViewInit();
+
     }
   }
 
