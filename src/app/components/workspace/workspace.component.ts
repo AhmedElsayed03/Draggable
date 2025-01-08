@@ -86,14 +86,14 @@ export class WorkspaceComponent {
       this.renderer.appendChild(workspaceElement, hostElement);
   
 
-      const computedStyles = window.getComputedStyle(hostElement);
-      console.log('Computed Styles for Created Component:', computedStyles);
+      // const computedStyles = window.getComputedStyle(hostElement);
+      // console.log('Computed Styles for Created Component:', computedStyles);
 
-      const backgroundColor = computedStyles.backgroundColor;
-      console.log('Computed Background Color:', backgroundColor);
+      // const backgroundColor = computedStyles.backgroundColor;
+      // console.log('Computed Background Color:', backgroundColor);
 
-      const borderRadius = computedStyles.borderRadius;
-      console.log('Computed Background Color:', borderRadius);
+      // const borderRadius = computedStyles.borderRadius;
+      // console.log('Computed Background Color:', borderRadius);
   
       const directive = new ResizeDragDirective(new ElementRef(hostElement));
       directive.ngAfterViewInit();
