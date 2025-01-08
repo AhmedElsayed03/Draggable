@@ -46,6 +46,8 @@ export class ResizeDragDirective implements AfterViewInit, OnChanges {
         grid: [8, 8],
         containment: this.containment,
       });
+
+      
   }
 
   private reinitializeResizableAndDraggable(): void {

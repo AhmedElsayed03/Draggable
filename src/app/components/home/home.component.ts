@@ -42,12 +42,12 @@ export class HomeComponent implements AfterViewInit   {
 
 
   ngAfterViewInit() {
-    if (this.perantElement) {
-      const perantHtml = this.perantElement.nativeElement.innerHTML;
-      console.log('HTML content of #perant:', perantHtml);
-    } else {
-      console.error('Element with id "perant" is not found.');
-    }
+    // if (this.perantElement) {
+    //   const perantHtml = this.perantElement.nativeElement.innerHTML;
+    //   console.log('HTML content of #perant:', perantHtml);
+    // } else {
+    //   console.error('Element with id "perant" is not found.');
+    // }
   }
 
 
