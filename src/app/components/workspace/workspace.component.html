@@ -1,13 +1,7 @@
-<div #workspaceContainer>
+<div #workspaceContainer id="workspaceContainer">
     
 </div>
-<div
-*ngFor="let item of draggableItems"
-cdkDrag
-(cdkDragMoved)="onDragMoved($event, item)"
-class="dynamic-item"
->
-<p>{{ item.content }}</p>
-</div>
+
+<button (click)="getHtmlContent()">Get HTML Content</button>
 
 

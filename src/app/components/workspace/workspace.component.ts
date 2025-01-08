@@ -29,17 +29,55 @@ export class WorkspaceComponent implements OnInit {
   modifiedItems: Set<DraggableItem> = new Set(); // Track only modified items
 
 
+
   constructor(private injector: Injector, private renderer: Renderer2 ,private http: HttpClient) {}
   ngOnInit(): void {
     // this.loadItems();
+    // const htmlContent = this.workspaceContainer.nativeElement.innerHTML;
+    // console.log(htmlContent);
+
     }
+    
+
+  // ngAfterViewInit(): void {
+  //   const htmlContent = this.workspaceContainer.nativeElement.innerHTML;
+  //   console.log(htmlContent);
+  // }
+
+  getHtmlContent(): void {
+    // const element = document.getElementById('workspaceContainer');
+    // if (element) {
+    //   const htmlContent = element.innerHTML;
+    //   console.log(htmlContent);
+    // } else {
+    //   console.error('Element with id "workspaceContainer" not found.');
+    // }
+
+
+  }
+
+    // ngAfterViewInit() {
+    //   if (this.elementRef?.nativeElement) {
+    //     console.log(this.elementRef.nativeElement.innerHTML);
+    //   } else {
+    //     console.error('ElementRef is not initialized yet or invalid.');
+    //   }
+    // }
+
 
     onDragMoved(event: any, item: DraggableItem) {
       const { x, y } = event.source.getFreeDragPosition();
       item.position = { x, y };
-      this.modifiedItems.add(item); // Mark this item as modified
+      this.modifiedItems.add(item); 
     }
   
+    saveItems() {
+
+    }
+
+
+
+
     saveAllItems() {
       const itemsToSave = Array.from(this.modifiedItems);
       if (itemsToSave.length === 0) {

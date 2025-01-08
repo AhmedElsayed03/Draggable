@@ -1,4 +1,4 @@
-import { Component, ViewChild, Type, ViewContainerRef, Renderer2} from '@angular/core';
+import { Component, ViewChild, Type, ViewContainerRef, Renderer2, ElementRef, AfterViewInit} from '@angular/core';
 import { DesignerComponent } from '../designer/designer.component';
 import { HeaderComponent } from '../header/header.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
@@ -22,13 +22,26 @@ import { DraggableItem } from '../../../models/draggable-item';
   styleUrl: './home.component.css'
 })
 
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit   {
   private nextId = 1;
   componentsList: DraggableItem[] = [];
 
   @ViewChild(WorkspaceComponent) workspace!: WorkspaceComponent;
+  @ViewChild(WorkspaceComponent) elementRef!: ElementRef;
 
-  constructor(private renderer: Renderer2) {}
+  @ViewChild('templateReference') workspaceContainer!: ElementRef;
+
+  constructor(private renderer: Renderer2 , private elRef : ElementRef ) {}
+  showWorkspace = true;
+
+
+  ngAfterViewInit() {
+    if (this.elementRef) {
+      console.log(this.elementRef.nativeElement.innerHTML);
+    } else {
+      console.error('WorkspaceComponent is not initialized yet.');
+    }
+  }
 
   onAddComponent(type: string) {
     let component: Type<any> | null = null;
@@ -69,6 +82,9 @@ export class HomeComponent {
         newComponent.size = { width: rect.width, height: rect.height };
     
         console.log('Saving component data:', newComponent);
+        console.log(this.elementRef.nativeElement.innerHTML);
+
+
     
         this.componentsList.push(newComponent);
       } else {
@@ -78,8 +94,13 @@ export class HomeComponent {
     
   }
 
-  saveComponentById(id: number) {
+  saveAllItems() {
 
+    if (this.workspaceContainer?.nativeElement) {
+      console.log(this.workspaceContainer.nativeElement.innerHTML);
+    } else {
+      console.error('ElementRef is not initialized yet or invalid.');
+    }
 
   }
 }
