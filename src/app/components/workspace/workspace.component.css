@@ -5,3 +5,19 @@
   width: 1920px;        
   height: 1080px;
 }
+
+.save-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #218838;
+}

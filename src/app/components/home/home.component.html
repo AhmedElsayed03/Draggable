@@ -1,3 +1,8 @@
+      <app-designer (componentType)="onAddComponent($event)"  ></app-designer>
+      <app-workspace #templateReference class="workspace"></app-workspace>
+
+      <button (click)="saveAllItems()" class="save-button">Save Changes</button>
+
       @if(dropdownVisible){
       <app-drop-down (areaSelected)="onAreaSelected($event)"></app-drop-down>
       }
@@ -5,11 +10,3 @@
       <app-designer (componentType)="onAddComponent($event)"></app-designer>
 
       <app-workspace class="workspace"></app-workspace>
-
-
-
-
-      <!-- @if(error){
-
-            <app-alert [message]="error" (close)="onHandleError()"></app-alert>
-      } -->
