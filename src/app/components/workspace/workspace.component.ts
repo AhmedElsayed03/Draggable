@@ -1,18 +1,7 @@
-import { Component, ViewContainerRef, Type, Renderer2, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, Type, Renderer2, ElementRef } from '@angular/core';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { ResizeDragDirective } from '../../directives/resize-drag.directive';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { DraggableItem } from '../../../models/draggable-item';
 import { ParentAreaService } from '../../services/parent-area.service';
-import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
-import { FlightsComponent } from '../designer-items/flights/flights.component';
-import { WeatherComponent } from '../designer-items/weather/weather.component';
-import { Resizable } from '../../directives/resizable.directive';
-import { TextComponent } from '../designer-items/Text/text.component';
-import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
-import { ImageComponent } from '../designer-items/image/image.component';
-import { ImgComponent } from '../designer-items/img/img.component';
-import { HomeComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-workspace',
@@ -21,57 +10,41 @@ import { HomeComponent } from '../home/home.component';
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
-export class WorkspaceComponent implements OnInit {
-  @ViewChild('workspaceContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
+export class WorkspaceComponent {
 
   private areaCounter = 0;
   public areaIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
 
+  // draggableItems: DraggableItem[] = []; 
+  // modifiedItems: Set<DraggableItem> = new Set(); 
 
-  draggableItems: DraggableItem[] = []; // List of all draggable items
-  modifiedItems: Set<DraggableItem> = new Set(); // Track only modified items
-
-
-
-  constructor(private injector: Injector, private renderer: Renderer2 ,private http: HttpClient , private viewContainerRef: ViewContainerRef,
+  constructor( private renderer: Renderer2 , private viewContainerRef: ViewContainerRef,
     private parentAreaService: ParentAreaService) {}
-  ngOnInit(): void {
+ 
 
-    }
-    
+    // onDragMoved(event: any, item: DraggableItem) {
+    //   const { x, y } = event.source.getFreeDragPosition();
+    //   item.position = { x, y };
+    //   this.modifiedItems.add(item); 
+    // }
 
 
-
-
-    onDragMoved(event: any, item: DraggableItem) {
-      const { x, y } = event.source.getFreeDragPosition();
-      item.position = { x, y };
-      this.modifiedItems.add(item); 
-    }
+    // saveAllItems() {
+    //   const itemsToSave = Array.from(this.modifiedItems);
+    //   if (itemsToSave.length === 0) {
+    //     console.log('No changes to save.');
+    //     return;
+    //   }
   
-    saveItems() {
-
-    }
-
-
-
-
-    saveAllItems() {
-      const itemsToSave = Array.from(this.modifiedItems);
-      if (itemsToSave.length === 0) {
-        console.log('No changes to save.');
-        return;
-      }
-  
-      this.http.post('https://localhost:7040/api/DraggableItems/save', itemsToSave).subscribe({
-        next: (response) => {
-          console.log('Items saved successfully!', response);
-          this.modifiedItems.clear(); // Clear the modified items set after saving
-        },
-        error: (err) => console.error('Error saving items:', err),
-      });
-    }
+    //   this.http.post('https://localhost:7040/api/DraggableItems/save', itemsToSave).subscribe({
+    //     next: (response) => {
+    //       console.log('Items saved successfully!', response);
+    //       this.modifiedItems.clear(); // Clear the modified items set after saving
+    //     },
+    //     error: (err) => console.error('Error saving items:', err),
+    //   });
+    // }
   
     // loadItems() {
     //   this.http.get<DraggableItem[]>('https://localhost:7045/api/draggable-items').subscribe({

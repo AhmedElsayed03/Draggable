@@ -50,6 +50,7 @@ export class HomeComponent implements AfterViewInit   {
     }
   }
 
+
   onAddComponent(type: string) {
     let component: Type<any> | null = null;
 
@@ -68,49 +69,13 @@ export class HomeComponent implements AfterViewInit   {
         break;
       case 'image':
         component = ImageComponent;
-
+        break;
       case 'img':
         component = ImgComponent;
         break;
       case 'area':
         component = AreaComponent;
         break;
-    }
-
-    if (component && this.workspace) {
-      const newComponent = new DraggableItem(this.nextId++, type);
-    
-      const createdElement = this.workspace.addComponent(component);
-    
-      if (createdElement instanceof HTMLElement) {
-
-        const rect = createdElement.getBoundingClientRect();
-        newComponent.position = { x: rect.x, y: rect.y };
-        newComponent.size = { width: rect.width, height: rect.height };
-    
-        console.log('Saving component data:', newComponent);
-        console.log(this.elementRef.nativeElement.innerHTML);
-
-
-    
-        this.componentsList.push(newComponent);
-      } else {
-        console.error('createdElement is not an HTMLElement.');
-      }
-    }
-    
-  }
-
-  saveAllItems() {
-
-    if (this.workspaceContainer?.nativeElement) {
-      console.log(this.workspaceContainer.nativeElement.innerHTML);
-    } else {
-      console.error('ElementRef is not initialized yet or invalid.');
-    }
-
-  }
-}
       case 'item':
         component = ItemComponent;
         break;
@@ -135,4 +100,16 @@ export class HomeComponent implements AfterViewInit   {
     }
     this.dropdownVisible = false; // Hide dropdown after selection
   }
+
+
+  saveAllItems() {
+
+    if (this.workspaceContainer?.nativeElement) {
+      console.log(this.workspaceContainer.nativeElement.innerHTML);
+    } else {
+      console.error('ElementRef is not initialized yet or invalid.');
+    }
+
+  }
+
 }
