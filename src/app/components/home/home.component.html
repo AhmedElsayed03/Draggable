@@ -1,9 +1,12 @@
-
+<a (click)="getdata()">get child</a>
       @if(dropdownVisible){
       <app-drop-down (areaSelected)="onAreaSelected($event)"></app-drop-down>
       }
       
       <app-designer (componentType)="onAddComponent($event)"></app-designer>
-<div class="perant" #perant>
-      <app-workspace class="workspace"></app-workspace>
-</div>
+      <div  class="perant" #perant>
+            <app-workspace  class="workspace"></app-workspace>
+      </div>
+
+
+

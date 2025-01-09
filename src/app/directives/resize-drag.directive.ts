@@ -19,16 +19,30 @@ export class ResizeDragDirective implements AfterViewInit {
         grid: [15, 15],
         handles: 'n, e, s, w, se, sw, ne, nw',
         containment: this.containment,
+        stop: (event: Event, ui: any) => {
+          const computedStyles = window.getComputedStyle(resizableElement);
+          const top = computedStyles.width;
+          const left = computedStyles.height;
+          console.log("width: ",top);
+          console.log("height: ",left);
+          console.log("computedStyles: ",computedStyles);
+
+        },
       })
       .draggable({
         grid: [1, 1],
         containment: this.containment,
         stop: (event: Event, ui: any) => {
-          const computedStyles = window.getComputedStyle(resizableElement);
-          const top = computedStyles.top;
-          const left = computedStyles.left;
-          console.log("top: ",top);
-          console.log("left: ",left);
+          // const computedStyles = window.getComputedStyle(resizableElement);
+          // const elementHTML = resizableElement.firstElementChild;
+          // const HTML = computedStyles;
+
+          // console.log('HTML content of the element:', HTML);
+
+          // const top = computedStyles.top;
+          // const left = computedStyles.left;
+          // console.log("top: ",top);
+          // console.log("left: ",left);
         },
       });
   }

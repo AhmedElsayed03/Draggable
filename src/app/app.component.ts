@@ -11,4 +11,24 @@ import { HomeComponent } from './components/home/home.component';
 })
 export class AppComponent {
   title = 'drag';
+
+
+
+  getdata(){
+     var x = document.getElementById("p1");
+     if(x){
+      // const nodeList = x.childNodes;
+      // let text = "";
+      // for (let i = 0; i < nodeList.length; i++) {
+      //     text += nodeList[i].nodeName + "<br>";
+      //   }
+      //       console.log(text)'
+      console.log(x.nextElementSibling?.innerHTML)
+     }
+
+        
+  }
+
 }
+
+

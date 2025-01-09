@@ -42,13 +42,33 @@ export class HomeComponent implements AfterViewInit   {
 
 
   ngAfterViewInit() {
-    // if (this.perantElement) {
-    //   const perantHtml = this.perantElement.nativeElement.innerHTML;
-    //   console.log('HTML content of #perant:', perantHtml);
-    // } else {
-    //   console.error('Element with id "perant" is not found.');
-    // }
+    if (this.perantElement) {
+      const par = document.getElementById("perant")?.childElementCount;
+      const perantHtml = this.perantElement.nativeElement.ViewChild ;
+      console.log('HTML content of #perant:', par);
+    } else {
+      console.error('Element with id "perant" is not found.');
+    }
   }
+
+
+
+  getdata(){
+    var x = document.getElementById("p1");
+    const perantHtml = this.perantElement.nativeElement ;
+
+    if(perantHtml){
+     // const nodeList = x.childNodes;
+     // let text = "";
+     // for (let i = 0; i < nodeList.length; i++) {
+     //     text += nodeList[i].nodeName + "<br>";
+     //   }
+     //       console.log(text)'
+    //  console.log(perantHtml.outerHTML)
+    }
+
+       
+ }
 
 
   onAddComponent(type: string) {
