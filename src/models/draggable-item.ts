@@ -2,17 +2,16 @@ export class  DraggableItem {
     id: string;
     type?: string;     
     styles?: {
+        content?: string;  
         width: string;
         height: string;
         top: string;
         left: string;
       };
-    content?: string;  
     
-    constructor(id: string, type: string, styles?: {width: string; height: string; top: string;left: string;}, content?: string ) {
+    constructor(id: string, type: string, styles?: {content?: string; width: string; height: string; top: string;left: string; } ) {
         this.id = id;
         this.type = type;
         this.styles =styles;
-        this.content = this.content;
       }
 }

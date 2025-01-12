@@ -8,7 +8,7 @@ declare const $: any; // Declare jQuery
 })
 export class ResizeDragDirective implements AfterViewInit {
   @Input() containment: string = '.workspace'; // Default containment is ".workspace"
-  @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string }>();
+  @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string ;content?: string  }>();
 
   constructor(private elementRef: ElementRef) {}
 
@@ -21,13 +21,33 @@ export class ResizeDragDirective implements AfterViewInit {
         handles: 'n, e, s, w, se, sw, ne, nw',
         containment: this.containment,
         stop: (event: Event, ui: any) => {
+          const inlineStyles: { [key: string]: string } = {};
+
           const computedStyles = window.getComputedStyle(resizableElement);
           console.log(computedStyles)
+          const tempElement = document.createElement(resizableElement.tagName);
+          document.body.appendChild(tempElement);
+          const defaultStyles = window.getComputedStyle(tempElement);
+          
+          Array.from(computedStyles).forEach((property) => {
+            if (computedStyles.getPropertyValue(property) !== defaultStyles.getPropertyValue(property)) {
+              inlineStyles[property] = computedStyles.getPropertyValue(property);
+            }
+          });
+          
+          document.body.removeChild(tempElement);
+          
+          const inlineStyleString = Object.entries(inlineStyles)
+            .map(([key, value]) => `${key}:${value}`)
+            .join(';');
+          
+          console.log(inlineStyleString);
           this.styleChange.emit({
             width: computedStyles.width,
             height: computedStyles.height,
             top: computedStyles.top,
             left: computedStyles.left,
+            content:inlineStyleString
           });
 
         },
@@ -39,12 +59,37 @@ export class ResizeDragDirective implements AfterViewInit {
           // const computedStyles = window.getComputedStyle(resizableElement);
           // const elementHTML = resizableElement.firstElementChild;
           // console.log('HTML content of the element:', HTML);
+
+
+          const inlineStyles: { [key: string]: string } = {};
+
           const computedStyles = window.getComputedStyle(resizableElement);
+          console.log(computedStyles)
+          const tempElement = document.createElement(resizableElement.tagName);
+          document.body.appendChild(tempElement);
+          const defaultStyles = window.getComputedStyle(tempElement);
+          
+          Array.from(computedStyles).forEach((property) => {
+            if (computedStyles.getPropertyValue(property) !== defaultStyles.getPropertyValue(property)) {
+              inlineStyles[property] = computedStyles.getPropertyValue(property);
+            }
+          });
+          
+          document.body.removeChild(tempElement);
+          
+          const inlineStyleString = Object.entries(inlineStyles)
+            .map(([key, value]) => `${key}:${value}`)
+            .join(';');
+          
+          console.log(inlineStyleString);
+
           this.styleChange.emit({
             width: computedStyles.width,
             height: computedStyles.height,
             top: computedStyles.top,
             left: computedStyles.left,
+            content:inlineStyleString
+
           });
         },
       });
