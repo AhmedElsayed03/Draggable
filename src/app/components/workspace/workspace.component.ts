@@ -53,50 +53,50 @@ export class WorkspaceComponent {
     //   });
     // }
 
-    addToArea(componentType: Type<any>, areaId: string) {
-      const areaComponent = this.areaComponents.get(areaId);
-      if (!areaComponent) {
-        console.error(`Area with id ${areaId} not found.`);
-        return;
-      }
-      areaComponent.addItem(componentType, areaId);
-    }
+    // addToArea(componentType: Type<any>, areaId: string) {
+    //   const areaComponent = this.areaComponents.get(areaId);
+    //   if (!areaComponent) {
+    //     console.error(`Area with id ${areaId} not found.`);
+    //     return;
+    //   }
+    //   areaComponent.addItem(componentType, areaId);
+    // }
   
-    addToWorkspace(componentType: Type<any>) {
+    // addToWorkspace(componentType: Type<any>) {
   
-      const createdComponent = this.viewContainerRef.createComponent(componentType);
-      const hostElement = createdComponent.location.nativeElement;
+    //   const createdComponent = this.viewContainerRef.createComponent(componentType);
+    //   const hostElement = createdComponent.location.nativeElement;
   
-      // Special handling for AreaComponent (Adding Id for each created area)
-      if (componentType === AreaComponent) {
-        this.areaCounter++;
-        const newAreaId = `area.${this.areaCounter}`;
-        this.renderer.setAttribute(hostElement, 'id', newAreaId);
-        this.areaIds.push(newAreaId);
+    //   // Special handling for AreaComponent (Adding Id for each created area)
+    //   if (componentType === AreaComponent) {
+    //     this.areaCounter++;
+    //     const newAreaId = `area.${this.areaCounter}`;
+    //     this.renderer.setAttribute(hostElement, 'id', newAreaId);
+    //     this.areaIds.push(newAreaId);
   
-        // Store reference to the created AreaComponent instance
-        this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+    //     // Store reference to the created AreaComponent instance
+    //     this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
   
-        // Update the service with the new areaId
-        this.parentAreaService.addAreaId(newAreaId);
-      }
+    //     // Update the service with the new areaId
+    //     this.parentAreaService.addAreaId(newAreaId);
+    //   }
   
-      // Append the created component directly to the WorkspaceComponent
-      const workspaceElement = this.viewContainerRef.element.nativeElement;
-      this.renderer.appendChild(workspaceElement, hostElement);
+    //   // Append the created component directly to the WorkspaceComponent
+    //   const workspaceElement = this.viewContainerRef.element.nativeElement;
+    //   this.renderer.appendChild(workspaceElement, hostElement);
   
 
-      // const computedStyles = window.getComputedStyle(hostElement);
-      // console.log('Computed Styles for Created Component:', computedStyles);
+    //   // const computedStyles = window.getComputedStyle(hostElement);
+    //   // console.log('Computed Styles for Created Component:', computedStyles);
 
-      // const backgroundColor = computedStyles.backgroundColor;
-      // console.log('Computed Background Color:', backgroundColor);
+    //   // const backgroundColor = computedStyles.backgroundColor;
+    //   // console.log('Computed Background Color:', backgroundColor);
 
-      // const borderRadius = computedStyles.borderRadius;
-      // console.log('Computed Background Color:', borderRadius);
+    //   // const borderRadius = computedStyles.borderRadius;
+    //   // console.log('Computed Background Color:', borderRadius);
   
-      const directive = new ResizeDragDirective(new ElementRef(hostElement));
-      directive.ngAfterViewInit();
+    //   const directive = new ResizeDragDirective(new ElementRef(hostElement));
+    //   directive.ngAfterViewInit();
   
-    }
+    // }
 }

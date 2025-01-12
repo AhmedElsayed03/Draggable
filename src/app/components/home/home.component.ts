@@ -13,6 +13,8 @@ import { DraggableItem } from '../../../models/draggable-item';
 import { AlertComponent } from '../../shared/alert/alert.component';
 import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
+import { ResizeDragDirective } from '../../directives/resize-drag.directive';
+import { ParentAreaService } from '../../services/parent-area.service';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +28,9 @@ export class HomeComponent implements AfterViewInit   {
   private nextId = 1;
   componentsList: DraggableItem[] = [];
 
+  private areaCounter = 0;
+  public areaIds: string[] = [];
+  private areaComponents: Map<string, AreaComponent> = new Map();
 
 
   error: string = "Something went wrong!";
@@ -37,7 +42,8 @@ export class HomeComponent implements AfterViewInit   {
   @ViewChild('templateReference') workspaceContainer!: ElementRef;
   @ViewChild('perant', { static: false }) perantElement!: ElementRef;
 
-  constructor(private renderer: Renderer2 , private elRef : ElementRef ) {}
+  constructor(private renderer: Renderer2 , private elRef : ElementRef , private viewContainerRef: ViewContainerRef,
+             private parentAreaService: ParentAreaService ) {}
   showWorkspace = true;
 
 
@@ -102,7 +108,7 @@ export class HomeComponent implements AfterViewInit   {
     }
 
     if (component === AreaComponent) {
-      this.workspace.addToWorkspace(component);
+      this.addToWorkspace(component);
       this.ngAfterViewInit();
     }
 
@@ -116,10 +122,10 @@ export class HomeComponent implements AfterViewInit   {
   // Handle the selected area and close the dropdown
   onAreaSelected(areaId: string) {
     if (areaId === '.workspace') {
-      this.workspace.addToWorkspace(ItemComponent);
+      this.addToWorkspace(ItemComponent);
     } else {
       const targetAreaId = `${areaId}`;
-      this.workspace.addToArea(ItemComponent, targetAreaId);
+      this.addToArea(ItemComponent, targetAreaId);
     }
     this.dropdownVisible = false; // Hide dropdown after selection
   }
@@ -134,5 +140,63 @@ export class HomeComponent implements AfterViewInit   {
     }
 
   }
+
+
+      addToArea(componentType: Type<any>, areaId: string) {
+        const areaComponent = this.areaComponents.get(areaId);
+        if (!areaComponent) {
+          console.error(`Area with id ${areaId} not found.`);
+          return;
+        }
+        areaComponent.addItem(componentType, areaId);
+      }
+    
+      addToWorkspace(componentType: Type<any>) {
+    
+        const createdComponent = this.viewContainerRef.createComponent(componentType);
+        const hostElement = createdComponent.location.nativeElement;
+    
+        // Special handling for AreaComponent (Adding Id for each created area)
+        if (componentType === AreaComponent) {
+          this.areaCounter++;
+          const newAreaId = `area.${this.areaCounter}`;
+          this.renderer.setAttribute(hostElement, 'id', newAreaId);
+          this.areaIds.push(newAreaId);
+    
+          // Store reference to the created AreaComponent instance
+          this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+    
+          // Update the service with the new areaId
+          this.parentAreaService.addAreaId(newAreaId);
+        }
+    
+        // Append the created component directly to the WorkspaceComponent
+        const workspaceElement = this.viewContainerRef.element.nativeElement;
+        this.renderer.appendChild(workspaceElement, hostElement);
+
+        const directive = new ResizeDragDirective(new ElementRef(hostElement));
+
+
+        directive.styleChange.subscribe((styles) => {
+          const componentId = createdComponent.instance.id; // Assign or generate an ID for the component
+          const existing = this.componentsList.find((c) => c.id === componentId);
+          if (existing) {
+            existing.styles = styles;
+          } else {
+            this.componentsList.push({
+              id: componentId,
+              type :componentType ,
+              styles,
+            });
+          }
+          console.log('Updated components list:', this.componentsList);
+
+        });
+
+
+
+        directive.ngAfterViewInit();
+    
+      }
 
 }

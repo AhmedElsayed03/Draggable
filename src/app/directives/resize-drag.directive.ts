@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 declare const $: any; // Declare jQuery
 
@@ -8,6 +8,7 @@ declare const $: any; // Declare jQuery
 })
 export class ResizeDragDirective implements AfterViewInit {
   @Input() containment: string = '.workspace'; // Default containment is ".workspace"
+  @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string }>();
 
   constructor(private elementRef: ElementRef) {}
 
@@ -21,11 +22,12 @@ export class ResizeDragDirective implements AfterViewInit {
         containment: this.containment,
         stop: (event: Event, ui: any) => {
           const computedStyles = window.getComputedStyle(resizableElement);
-          const top = computedStyles.width;
-          const left = computedStyles.height;
-          console.log("width: ",top);
-          console.log("height: ",left);
-          console.log("computedStyles: ",computedStyles);
+          this.styleChange.emit({
+            width: computedStyles.width,
+            height: computedStyles.height,
+            top: computedStyles.top,
+            left: computedStyles.left,
+          });
 
         },
       })
@@ -35,14 +37,14 @@ export class ResizeDragDirective implements AfterViewInit {
         stop: (event: Event, ui: any) => {
           // const computedStyles = window.getComputedStyle(resizableElement);
           // const elementHTML = resizableElement.firstElementChild;
-          // const HTML = computedStyles;
-
           // console.log('HTML content of the element:', HTML);
-
-          // const top = computedStyles.top;
-          // const left = computedStyles.left;
-          // console.log("top: ",top);
-          // console.log("left: ",left);
+          const computedStyles = window.getComputedStyle(resizableElement);
+          this.styleChange.emit({
+            width: computedStyles.width,
+            height: computedStyles.height,
+            top: computedStyles.top,
+            left: computedStyles.left,
+          });
         },
       });
   }
