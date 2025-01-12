@@ -22,6 +22,7 @@ export class ResizeDragDirective implements AfterViewInit {
         containment: this.containment,
         stop: (event: Event, ui: any) => {
           const computedStyles = window.getComputedStyle(resizableElement);
+          console.log(computedStyles)
           this.styleChange.emit({
             width: computedStyles.width,
             height: computedStyles.height,

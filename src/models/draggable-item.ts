@@ -1,6 +1,6 @@
 export class  DraggableItem {
     id: string;
-    type?: any;     
+    type?: string;     
     styles?: {
         width: string;
         height: string;

@@ -15,11 +15,12 @@ import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
 import { ResizeDragDirective } from '../../directives/resize-drag.directive';
 import { ParentAreaService } from '../../services/parent-area.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [DesignerComponent, WorkspaceComponent, AlertComponent, DropDownComponent, AreaComponent, ImgComponent, ItemComponent],
+  imports: [DesignerComponent, WorkspaceComponent, AlertComponent, HttpClientModule ,  DropDownComponent, AreaComponent, ImgComponent, ItemComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -29,6 +30,8 @@ export class HomeComponent implements AfterViewInit   {
   componentsList: DraggableItem[] = [];
 
   private areaCounter = 0;
+  private ComponentCounter = 0;
+
   public areaIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
 
@@ -43,7 +46,7 @@ export class HomeComponent implements AfterViewInit   {
   @ViewChild('perant', { static: false }) perantElement!: ElementRef;
 
   constructor(private renderer: Renderer2 , private elRef : ElementRef , private viewContainerRef: ViewContainerRef,
-             private parentAreaService: ParentAreaService ) {}
+             private parentAreaService: ParentAreaService , private http: HttpClient ) {}
   showWorkspace = true;
 
 
@@ -56,8 +59,6 @@ export class HomeComponent implements AfterViewInit   {
       console.error('Element with id "perant" is not found.');
     }
   }
-
-
 
   getdata(){
     var x = document.getElementById("p1");
@@ -75,7 +76,6 @@ export class HomeComponent implements AfterViewInit   {
 
        
  }
-
 
   onAddComponent(type: string) {
     let component: Type<any> | null = null;
@@ -119,7 +119,6 @@ export class HomeComponent implements AfterViewInit   {
     }
   }
 
-  // Handle the selected area and close the dropdown
   onAreaSelected(areaId: string) {
     if (areaId === '.workspace') {
       this.addToWorkspace(ItemComponent);
@@ -131,72 +130,72 @@ export class HomeComponent implements AfterViewInit   {
   }
 
 
-  saveAllItems() {
+  addToArea(componentType: Type<any>, areaId: string) {
+    const areaComponent = this.areaComponents.get(areaId);
+    if (!areaComponent) {
+      console.error(`Area with id ${areaId} not found.`);
+      return;
+    }
+    areaComponent.addItem(componentType, areaId);
+  }
+    
+  addToWorkspace(componentType: Type<any>) {
 
-    if (this.workspaceContainer?.nativeElement) {
-      console.log(this.workspaceContainer.nativeElement.innerHTML);
-    } else {
-      console.error('ElementRef is not initialized yet or invalid.');
+    const createdComponent = this.viewContainerRef.createComponent(componentType);
+    const hostElement = createdComponent.location.nativeElement;
+    this.ComponentCounter++;
+    const newComponentId = `${componentType.name }_${this.ComponentCounter}`;
+    hostElement.setAttribute('newComponentId', newComponentId);
+
+
+    if (componentType === AreaComponent) {
+      this.areaCounter++;
+      const newAreaId = `area.${this.areaCounter}`;
+      this.renderer.setAttribute(hostElement, 'id', newAreaId);
+      this.areaIds.push(newAreaId);
+
+      this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+
+      this.parentAreaService.addAreaId(newAreaId);
     }
 
-  }
+    const workspaceElement = this.viewContainerRef.element.nativeElement;
+    this.renderer.appendChild(workspaceElement, hostElement);
 
-
-      addToArea(componentType: Type<any>, areaId: string) {
-        const areaComponent = this.areaComponents.get(areaId);
-        if (!areaComponent) {
-          console.error(`Area with id ${areaId} not found.`);
-          return;
-        }
-        areaComponent.addItem(componentType, areaId);
-      }
+    const directive = new ResizeDragDirective(new ElementRef(hostElement));
     
-      addToWorkspace(componentType: Type<any>) {
-    
-        const createdComponent = this.viewContainerRef.createComponent(componentType);
-        const hostElement = createdComponent.location.nativeElement;
-    
-        // Special handling for AreaComponent (Adding Id for each created area)
-        if (componentType === AreaComponent) {
-          this.areaCounter++;
-          const newAreaId = `area.${this.areaCounter}`;
-          this.renderer.setAttribute(hostElement, 'id', newAreaId);
-          this.areaIds.push(newAreaId);
-    
-          // Store reference to the created AreaComponent instance
-          this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
-    
-          // Update the service with the new areaId
-          this.parentAreaService.addAreaId(newAreaId);
-        }
-    
-        // Append the created component directly to the WorkspaceComponent
-        const workspaceElement = this.viewContainerRef.element.nativeElement;
-        this.renderer.appendChild(workspaceElement, hostElement);
-
-        const directive = new ResizeDragDirective(new ElementRef(hostElement));
-
-
-        directive.styleChange.subscribe((styles) => {
-          const componentId = createdComponent.instance.id; // Assign or generate an ID for the component
-          const existing = this.componentsList.find((c) => c.id === componentId);
-          if (existing) {
-            existing.styles = styles;
-          } else {
-            this.componentsList.push({
-              id: componentId,
-              type :componentType ,
-              styles,
-            });
-          }
-          console.log('Updated components list:', this.componentsList);
-
+    directive.styleChange.subscribe((styles) => {
+      const componentId = newComponentId  ; 
+      const existing = this.componentsList.find((c) => c.id === componentId);
+      if (existing) {
+        existing.styles = styles;
+      } else {
+        this.componentsList.push({
+          id: componentId,
+          type :componentType.name.toString() ,
+          styles,
         });
-
-
-
-        directive.ngAfterViewInit();
-    
       }
+      console.log('Updated components list:', this.componentsList);
 
+    });
+    directive.ngAfterViewInit(); 
+  }
+  save(){
+      const items = Array.from(this.componentsList);
+      console.log(items)
+      if (items.length === 0) {
+        console.log('No changes to save.');
+        return;
+      }
+  
+      this.http.post('https://localhost:7045/api/DraggableItems/save', this.componentsList).subscribe({
+        next: (response) => {
+          console.log('Items saved successfully!', response);
+          // this.componentsList.Clear(); // Clear the modified items set after saving
+        },
+        error: (err) => console.error('Error saving items:', err),  
+      });
+      
+  }
 }
