@@ -16,6 +16,7 @@ import { ItemComponent } from '../designer-items/item/item.component';
 import { ResizeDragDirective } from '../../directives/resize-drag.directive';
 import { ParentAreaService } from '../../services/parent-area.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ContentService } from '../../services/content.service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +37,7 @@ export class HomeComponent implements AfterViewInit   {
   private areaComponents: Map<string, AreaComponent> = new Map();
 
   componentType!: Type<any>;
+  content: string = '';
 
   error: string = "Something went wrong!";
   areaId: string = "";
@@ -47,9 +49,13 @@ export class HomeComponent implements AfterViewInit   {
   @ViewChild('perant', { static: false }) perantElement!: ElementRef;
 
   constructor(private renderer: Renderer2 , private elRef : ElementRef , private viewContainerRef: ViewContainerRef,
-             private parentAreaService: ParentAreaService , private http: HttpClient ) {}
+             private parentAreaService: ParentAreaService , private http: HttpClient ,private contentService: ContentService ) {}
   showWorkspace = true;
 
+
+  ngOnInit(): void {
+
+  }
 
   ngAfterViewInit() {
     if (this.perantElement) {
@@ -64,17 +70,6 @@ export class HomeComponent implements AfterViewInit   {
   getdata(){
     var x = document.getElementById("p1");
     const perantHtml = this.perantElement.nativeElement ;
-
-    if(perantHtml){
-     // const nodeList = x.childNodes;
-     // let text = "";
-     // for (let i = 0; i < nodeList.length; i++) {
-     //     text += nodeList[i].nodeName + "<br>";
-     //   }
-     //       console.log(text)'
-    //  console.log(perantHtml.outerHTML)
-    }
-
        
  }
 
@@ -174,20 +169,29 @@ export class HomeComponent implements AfterViewInit   {
     const directive = new ResizeDragDirective(new ElementRef(hostElement));
     
     directive.styleChange.subscribe((styles) => {
-      const componentId = newComponentId  ; 
-      const existing = this.itemsList.find((c) => c.id === componentId);
-      if (existing) {
-        existing.styles = styles;
-      } else {
-        this.itemsList.push({
-          id: componentId,
-          type :componentType.name.toString(),
-          styles,
-        });
-      }
-      console.log('Updated components list:', this.itemsList);
+      const componentId = newComponentId;
+      
+      this.contentService.content$.subscribe((content) => {
+        this.content = content;     
 
+        const existing = this.itemsList.find((c) => c.id === componentId);
+        console.log(componentId)
+        if (existing) {
+          existing.styles = styles;
+          existing.content = this.content;  
+        } else {
+          this.itemsList.push({
+            id: componentId,
+            type: componentType.name.toString(),
+            content: "",
+            styles,
+          });  
+        }
+    
+        console.log('Updated components list:', this.itemsList);
+      });
     });
+    
     directive.ngAfterViewInit(); 
   }
   save(){

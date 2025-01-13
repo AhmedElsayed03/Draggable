@@ -1,8 +1,9 @@
 export class  DraggableItem {
     id: string;
-    type?: string;     
+    type?: string; 
+    content?: string;
+    
     styles?: {
-        content?: string;
         style: string;
         width: string;
         height: string;
@@ -10,8 +11,9 @@ export class  DraggableItem {
         left: string;
       };
     
-    constructor(id: string, type: string, styles?: {content?: string; width: string; height: string; top: string; left: string; style: string;} ) {
+    constructor(id: string, type: string,content?: string, styles?: {content: string; width: string; height: string; top: string; left: string; style: string; } ) {
         this.id = id;
+        this.content = content;
         this.type = type;
         this.styles = styles;
       }

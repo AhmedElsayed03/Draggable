@@ -8,7 +8,7 @@ declare const $: any; // Declare jQuery
 })
 export class ResizeDragDirective implements AfterViewInit {
   @Input() containment: string = '.workspace'; // Default containment is ".workspace"
-  @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string ; style: string ;content?: string  }>();
+  @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string ; style: string }>();
 
   constructor(private elementRef: ElementRef) {}
 
@@ -23,7 +23,7 @@ export class ResizeDragDirective implements AfterViewInit {
         const inlineStyles: { [key: string]: string } = {};
 
         const computedStyles = window.getComputedStyle(resizableElement);
-        console.log(computedStyles)
+        // console.log(computedStyles)
         const tempElement = document.createElement(resizableElement.tagName);
         document.body.appendChild(tempElement);
         const defaultStyles = window.getComputedStyle(tempElement);
@@ -47,7 +47,6 @@ export class ResizeDragDirective implements AfterViewInit {
           top: computedStyles.top,
           left: computedStyles.left,
           style: inlineStyleString,
-          content:"content"
         });
       },
     };
