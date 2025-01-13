@@ -2,11 +2,11 @@
   display: block;
   background-color: #e0fcff;
   position: relative;
-  /* width: 1920px;        
-  height: 1080px; */
-
+  width: 1920px;        
+  height: 1080px;
+/* 
   width: 1440px;        
-  height: 810px;;
+  height: 810px; */
 }
 
 .save-button {

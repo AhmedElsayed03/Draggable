@@ -7,14 +7,17 @@
 
   .save-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    height: 25px;
+    bottom: 50px;
+    right: 30px;
     padding: 10px 20px;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    z-index: 10;
+  
   }
   
   .save-button:hover {

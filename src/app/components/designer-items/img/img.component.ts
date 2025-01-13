@@ -48,20 +48,21 @@ export class ImgComponent{
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target?.result) {
           this.imageSrc = e.target.result as string;
+          console.log(this.imageSrc)
         }
       };
-
       reader.readAsDataURL(file);
+      console.log(file)
     }
   }
 
-  onDragStarted(): void {
-    this.isDragging = true;
-  }
+  // onDragStarted(): void {
+  //   this.isDragging = true;
+  // }
 
-  onDragEnded(): void {
-    this.isDragging = false;
-  }
+  // onDragEnded(): void {
+  //   this.isDragging = false;
+  // }
   
   // ngOnInit(): void {
   //   const resizableElement = this.elementRef.nativeElement.querySelector('#resizable');

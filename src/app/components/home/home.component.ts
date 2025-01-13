@@ -27,7 +27,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 export class HomeComponent implements AfterViewInit   {
   private nextId = 1;
-  componentsList: DraggableItem[] = [];
+  itemsList: DraggableItem[] = [];
 
   private areaCounter = 0;
   private ComponentCounter = 0;
@@ -35,6 +35,7 @@ export class HomeComponent implements AfterViewInit   {
   public areaIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
 
+  componentType!: Type<any>;
 
   error: string = "Something went wrong!";
   areaId: string = "";
@@ -78,32 +79,39 @@ export class HomeComponent implements AfterViewInit   {
  }
 
   onAddComponent(type: string) {
-    let component: Type<any> | null = null;
-
+    let component!: Type<any>;
     switch (type) {
       case 'weather':
         component = WeatherComponent;
+        this.componentType = component;
         break;
       case 'flights':
         component = FlightsComponent;
+        this.componentType = component;
         break;
       case 'text':
         component = TextComponent;
+        this.componentType = component;
         break;
       case 'CustomEditor':
         component = CustomEditorComponent;
+        this.componentType = component;
         break;
       case 'image':
         component = ImageComponent;
+        this.componentType = component;
         break;
       case 'img':
         component = ImgComponent;
+        this.componentType = component;
         break;
       case 'area':
         component = AreaComponent;
+        this.componentType = component;
         break;
       case 'item':
         component = ItemComponent;
+        this.componentType = component;
         break;
     }
 
@@ -113,6 +121,7 @@ export class HomeComponent implements AfterViewInit   {
     }
 
     if (component !== AreaComponent) {
+
       this.dropdownVisible = true; // Show dropdown for selecting area
       this.ngAfterViewInit();
 
@@ -121,10 +130,10 @@ export class HomeComponent implements AfterViewInit   {
 
   onAreaSelected(areaId: string) {
     if (areaId === '.workspace') {
-      this.addToWorkspace(ItemComponent);
+      this.addToWorkspace(this.componentType);
     } else {
       const targetAreaId = `${areaId}`;
-      this.addToArea(ItemComponent, targetAreaId);
+      this.addToArea(this.componentType, targetAreaId);
     }
     this.dropdownVisible = false; // Hide dropdown after selection
   }
@@ -166,33 +175,33 @@ export class HomeComponent implements AfterViewInit   {
     
     directive.styleChange.subscribe((styles) => {
       const componentId = newComponentId  ; 
-      const existing = this.componentsList.find((c) => c.id === componentId);
+      const existing = this.itemsList.find((c) => c.id === componentId);
       if (existing) {
         existing.styles = styles;
       } else {
-        this.componentsList.push({
+        this.itemsList.push({
           id: componentId,
-          type :componentType.name.toString() ,
+          type :componentType.name.toString(),
           styles,
         });
       }
-      console.log('Updated components list:', this.componentsList);
+      console.log('Updated components list:', this.itemsList);
 
     });
     directive.ngAfterViewInit(); 
   }
   save(){
-      const items = Array.from(this.componentsList);
+      const items = Array.from(this.itemsList);
       console.log(items)
       if (items.length === 0) {
         console.log('No changes to save.');
         return;
       }
   
-      this.http.post('https://localhost:7045/api/DraggableItems/save', this.componentsList).subscribe({
+      this.http.post('https://localhost:7045/api/DraggableItems/save', this.itemsList).subscribe({
         next: (response) => {
           console.log('Items saved successfully!', response);
-          // this.componentsList.Clear(); // Clear the modified items set after saving
+          // this.itemsList.Clear(); // Clear the modified items set after saving
         },
         error: (err) => console.error('Error saving items:', err),  
       });
