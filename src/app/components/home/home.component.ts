@@ -30,6 +30,8 @@ export class HomeComponent implements AfterViewInit   {
   private nextId = 1;
   itemsList: DraggableItem[] = [];
 
+  viewfilter:any = [];
+
   private areaCounter = 0;
   private ComponentCounter = 0;
 
@@ -45,6 +47,8 @@ export class HomeComponent implements AfterViewInit   {
 
   @ViewChild(WorkspaceComponent) workspace!: WorkspaceComponent;
   @ViewChild(WorkspaceComponent) elementRef!: ElementRef;
+  @ViewChild(CustomEditorComponent) CustomEditorRef!: ElementRef;
+
   @ViewChild('templateReference') workspaceContainer!: ElementRef;
   @ViewChild('perant', { static: false }) perantElement!: ElementRef;
 
@@ -90,7 +94,7 @@ export class HomeComponent implements AfterViewInit   {
         break;
       case 'CustomEditor':
         component = CustomEditorComponent;
-        this.componentType = component;
+        this.addCustomEditorToWorkspace(component);
         break;
       case 'image':
         component = ImageComponent;
@@ -143,56 +147,163 @@ export class HomeComponent implements AfterViewInit   {
     areaComponent.addItem(componentType, areaId);
   }
     
-  addToWorkspace(componentType: Type<any>) {
+  // addToWorkspace(componentType: Type<any>) {
 
+  //   const createdComponent = this.viewContainerRef.createComponent(componentType);
+  //   const hostElement = createdComponent.location.nativeElement;
+  //   this.ComponentCounter++;
+  //   const newComponentId = `${componentType.name }_${this.ComponentCounter}`;
+  //   hostElement.setAttribute('newComponentId', newComponentId);
+
+
+  //   if (componentType === AreaComponent) {
+  //     this.areaCounter++;
+  //     const newAreaId = `area.${this.areaCounter}`;
+  //     this.renderer.setAttribute(hostElement, 'id', newAreaId);
+  //     this.areaIds.push(newAreaId);
+
+  //     this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+
+  //     this.parentAreaService.addAreaId(newAreaId);
+  //   }
+
+  //   const workspaceElement = this.viewContainerRef.element.nativeElement;
+  //   this.renderer.appendChild(workspaceElement, hostElement);
+
+  //   const directive = new ResizeDragDirective(new ElementRef(hostElement));
+    
+  //   directive.styleChange.subscribe((styles) => {
+  //     const componentId = newComponentId;
+      
+  //     this.contentService.content$.subscribe((content) => {
+  //       //this.content = content;     
+  //       let tmp_content = content;
+  //       console.log('Received content:', tmp_content);;
+  //       const existing = this.itemsList.find((c) => c.id === componentId);
+  //       console.log(componentId)
+  //       if (existing) {
+  //         console.log(existing)
+
+  //         existing.styles = styles;
+  //         if(!existing.content)
+  //         existing.content = tmp_content;  
+  //       } else {
+  //         this.itemsList.push({
+  //           id: componentId,
+  //           type: componentType.name.toString(),
+  //           content: "",
+  //           styles,
+  //         });   
+  //       }
+    
+  //       console.log('Updated components list:', this.itemsList);
+  //     });
+  
+    
+  
+  //   });
+    
+  //   directive.ngAfterViewInit(); 
+  //   this.contentService.ngAfterViewInit();
+
+  // }
+
+
+  addToWorkspace(componentType: Type<any>) {
+    // Create the component dynamically
     const createdComponent = this.viewContainerRef.createComponent(componentType);
     const hostElement = createdComponent.location.nativeElement;
+  
+    // Increment component counters
     this.ComponentCounter++;
-    const newComponentId = `${componentType.name }_${this.ComponentCounter}`;
-    hostElement.setAttribute('newComponentId', newComponentId);
-
-
+    const newComponentId = `${componentType.name}_${this.ComponentCounter}`;
+    hostElement.setAttribute('id', newComponentId);
+  
+    // Handle AreaComponent-specific logic
     if (componentType === AreaComponent) {
       this.areaCounter++;
       const newAreaId = `area.${this.areaCounter}`;
       this.renderer.setAttribute(hostElement, 'id', newAreaId);
       this.areaIds.push(newAreaId);
-
+  
+      // Store the instance for AreaComponent
       this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
-
       this.parentAreaService.addAreaId(newAreaId);
     }
-
+  
+    // Append the component to the workspace
     const workspaceElement = this.viewContainerRef.element.nativeElement;
     this.renderer.appendChild(workspaceElement, hostElement);
-
+  
+    // Handle Resize and Drag functionality
     const directive = new ResizeDragDirective(new ElementRef(hostElement));
-    
     directive.styleChange.subscribe((styles) => {
-      const componentId = newComponentId;
-      
-      this.contentService.content$.subscribe((content) => {
-        this.content = content;     
-
-        const existing = this.itemsList.find((c) => c.id === componentId);
-        console.log(componentId)
-        if (existing) {
-          existing.styles = styles;
-          existing.content = this.content;  
+      const existingItem = this.itemsList.find((c) => c.id === newComponentId);
+      if (existingItem) {
+        existingItem.styles = styles;
+      } else {
+        this.itemsList.push({
+          id: newComponentId,
+          type: componentType.name.toString(),
+          content: '',
+          styles,
+        });
+      }
+  
+      console.log('Updated items list with styles:', this.itemsList);
+    });
+  
+    directive.ngAfterViewInit();
+  
+    // Handle CustomEditorComponent-specific logic
+    if (componentType === CustomEditorComponent) {
+      const instance = createdComponent.instance as CustomEditorComponent;
+      instance.ContentChange.subscribe((event) => {
+        const existingItem = this.itemsList.find((item) => item.id === newComponentId);
+        if (existingItem) {
+          existingItem.content = event.content!;
         } else {
           this.itemsList.push({
-            id: componentId,
-            type: componentType.name.toString(),
-            content: "",
-            styles,
-          });  
+            id: newComponentId,
+            type: componentType.name,
+            content: event.content || '',
+            
+          });
         }
-    
-        console.log('Updated components list:', this.itemsList);
+        console.log('Updated items list with content:', this.itemsList);
       });
+    }
+  
+    // Handle ContentService for updates (if applicable)
+    this.contentService.content$.subscribe((content) => {
+      const existingItem = this.itemsList.find((item) => item.id === newComponentId);
+      if (existingItem && !existingItem.content) {
+        existingItem.content = content;
+      }
+      console.log('ContentService updated content:', this.itemsList);
     });
-    
-    directive.ngAfterViewInit(); 
+  
+    this.contentService.ngAfterViewInit();
+  }
+  
+  addCustomEditorToWorkspace(componentType: Type<any>) {
+    const createdComponent = this.viewContainerRef.createComponent(componentType);
+    const hostElement = createdComponent.location.nativeElement;
+
+    const componentId = `${componentType.name}_${Date.now()}`;
+    hostElement.setAttribute('id', componentId);
+
+    const instance = createdComponent.instance as CustomEditorComponent;
+    instance.ContentChange.subscribe((event) => {
+      const existingItem = this.itemsList.find((item) => item.id === componentId);
+      if (existingItem) {
+        existingItem.content = event.content!;
+      } else {
+        this.itemsList.push({ id: componentId, type: componentType.name, content: event.content || ''});
+      }
+    });
+
+    this.renderer.appendChild(this.workspaceContainer.nativeElement, hostElement);
   }
   save(){
       const items = Array.from(this.itemsList);

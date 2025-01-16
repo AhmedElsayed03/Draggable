@@ -22,12 +22,11 @@ import { ContentService } from '../../../services/content.service';
   styleUrls: ['./custom-editor.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CustomEditorComponent implements OnInit, OnDestroy , OnChanges {
-
-  @Output() styleChange = new EventEmitter<{content?: string}>();
+export class CustomEditorComponent implements OnInit, OnDestroy {
+  @Output() ContentChange = new EventEmitter<{ content?: string }>();
 
   editor!: Editor;
-  html: string = ''; 
+  html: string = ''; // Content of the editor
 
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -38,39 +37,20 @@ export class CustomEditorComponent implements OnInit, OnDestroy , OnChanges {
     ['undo', 'redo'],
   ];
 
-
-  constructor(private contentService: ContentService) {}
-
   ngOnInit(): void {
     this.editor = new Editor({
       history: true,
       keyboardShortcuts: true,
       inputRules: true,
     });
-
   }
 
-  ngOnChanges() {
-    console.log("Editor content updated:", this.html);
+  onEditorChange(content: string) {
+    this.html = content;
+    this.ContentChange.emit({ content });
   }
 
   ngOnDestroy(): void {
     this.editor.destroy();
   }
-
-
-  onEditorChange(content: string) {
-    this.html = content;
-    this.contentService.setContent(this.html);  // Update content in the service
-    // console.log('Editor content:', content);
-  }
-  
-  // Method to update content when editor changes
-  // onEditorChange(content: string) {
-  //   this.html = content;
-  //   this.styleChange.emit({
-  //     content: this.html
-  //   });
-  //   console.log(content)
-  // }
 }

@@ -1,18 +1,24 @@
-import { Injectable } from '@angular/core';
+import { AfterViewInit, EventEmitter, Injectable, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContentService {
+export class ContentService implements AfterViewInit {
 
-  constructor() { }
+  @Output() ContentChange = new EventEmitter<{ content?: string }>();
 
   private contentSource = new BehaviorSubject<string>('');  
   content$ = this.contentSource.asObservable();
 
-  setContent(content: string) {
-    this.contentSource.next(content);  
+  constructor() { }
+
+  ngAfterViewInit(): void {
+    this.setContent('default content');
   }
-  
+
+  setContent(content: string) {
+    this.contentSource.next(content); 
+    this.ContentChange.emit({ content });   
+  }
 }
