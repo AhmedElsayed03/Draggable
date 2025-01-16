@@ -42,7 +42,6 @@ export class ResizeDragDirective implements AfterViewInit {
           .join(';');
         
         console.log(inlineStyleString);
-        console.log("imgSrc: " + this.imgSrc);
         this.styleChange.emit({
           width: computedStyles.width,
           height: computedStyles.height,

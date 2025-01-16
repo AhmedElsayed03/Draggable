@@ -16,30 +16,33 @@ export class WorkspaceComponent {
 
   private areaCounter = 0;
   private imgCounter = 0;
-  public areaIds: string[] = [];
-  public imgIds: string[] = [];
+  private areaIds: string[] = [];
+  private imgIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
   private imgComponents: Map<string, ImgComponent> = new Map();
-  itemsList: DraggableItem[] = [];
+  public itemsList: DraggableItem[] = [];
 
   constructor(private renderer: Renderer2,
               private viewContainerRef: ViewContainerRef,
               private StoreId: IdService) {}
 
+
     addToWorkspace(componentType: Type<any>) {
   
       const createdComponent = this.viewContainerRef.createComponent(componentType);
       const hostElement = createdComponent.location.nativeElement;
-      
+
       //AREA COMPONENT
       // Special handling for AreaComponent (Adding Id for each created area)
       if (componentType === AreaComponent) {
         this.areaCounter++;
         const newAreaId = `area.${this.areaCounter}`;
         this.renderer.setAttribute(hostElement, 'id', newAreaId);
+        // this.renderer.setAttribute(hostElement, 'z-index', '2');
         this.areaIds.push(newAreaId);
+        const instance = createdComponent.instance as AreaComponent;
         // Store reference to the created AreaComponent instance
-        this.areaComponents.set(newAreaId, createdComponent.instance as AreaComponent);
+        this.areaComponents.set(newAreaId, instance);
         // Update the service with the new areaId
         this.StoreId.addAreaId(newAreaId);
         // Append the created component directly to the WorkspaceComponent
@@ -48,6 +51,21 @@ export class WorkspaceComponent {
     
         const directive = new ResizeDragDirective(new ElementRef(hostElement));
         directive.ngAfterViewInit();
+
+        directive.styleChange.subscribe((styles) => {
+          const existing = this.itemsList.find((c) => c.id === newAreaId);
+          if (existing) {
+            existing.styles = styles;
+          } else {
+            this.itemsList.push({
+              id: newAreaId,
+              type :componentType.name.toString(),
+              styles,
+            });
+          }
+          console.log('Updated components list:', this.itemsList);
+    
+        });
       }
 
 
@@ -58,7 +76,7 @@ export class WorkspaceComponent {
         this.imgCounter++;
         const newImgId = `img.${this.imgCounter}`;
         this.renderer.setAttribute(hostElement, 'id', newImgId);
-        this.areaIds.push(newImgId);
+        this.imgIds.push(newImgId);
         const instance = createdComponent.instance as ImgComponent;
         this.imgComponents.set(newImgId, instance);
         this.StoreId.addImgId(newImgId);
@@ -92,6 +110,8 @@ export class WorkspaceComponent {
         // directive.ngAfterViewInit(); 
       }
     }
+
+    
 
 
     addToArea(componentType: Type<any>, areaId: string) {

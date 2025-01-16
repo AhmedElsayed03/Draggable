@@ -1,13 +1,13 @@
-<a class="save-button" (click)="save()">Save</a>
+      
+      <a class="save-button" (click)="save()">Save</a>
 
       @if(dropdownVisible){
       <app-drop-down (areaSelected)="onAreaSelected($event)"></app-drop-down>
       }
       
       <app-designer (componentType)="onAddComponent($event)"></app-designer>
-      <div  class="perant" #perant>
-            <app-workspace  class="workspace"></app-workspace>
-      </div>
+      <app-workspace  class="workspace"></app-workspace>
+
 
 
 

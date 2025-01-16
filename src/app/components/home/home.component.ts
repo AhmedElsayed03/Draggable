@@ -1,4 +1,4 @@
-import { Component, ViewChild, Type, ViewContainerRef, Renderer2, ElementRef, AfterViewInit} from '@angular/core';
+import { Component, ViewChild, Type, AfterViewInit} from '@angular/core';
 import { DesignerComponent } from '../designer/designer.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { WeatherComponent } from '../designer-items/weather/weather.component';
@@ -9,8 +9,6 @@ import { ImageComponent } from '../designer-items/image/image.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { DraggableItem } from '../../../models/draggable-item';
-
-import { AlertComponent } from '../../shared/alert/alert.component';
 import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
 import { SavingService } from '../../services/saving.service';
@@ -32,8 +30,6 @@ export class HomeComponent implements AfterViewInit   {
   componentType!: Type<any>;
 
   @ViewChild(WorkspaceComponent) workspace!: WorkspaceComponent;
-  @ViewChild(WorkspaceComponent) elementRef!: ElementRef;
-
 
   constructor(private savingService:SavingService) {}
 
