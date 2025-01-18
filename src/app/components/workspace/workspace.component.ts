@@ -159,14 +159,6 @@ export class WorkspaceComponent {
         // directive.ngAfterViewInit(); 
       }
 
-    
-
-    
-
-
-    
-
-
       //LINK COMPONENT
       if (componentType === LinkComponent) {
         this.linkCounter++;
