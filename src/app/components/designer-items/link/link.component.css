@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  position: absolute;
+  left: 30vw;
+  top: 30vh;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(100, 100, 100, 0.112);
+  border-radius: 25px;
+}
+
+#myInput {
+  background-color: #50b9ff; /* Remove the background */
+  position: absolute;
+  border: none; /* Remove the border */
+  outline: none; /* Remove the focus outline */
+  color: #0d6199; /* Text color */
+  font-family: Arial, sans-serif; /* Font family for the text */
+  font-size: 30px;
+  width: 300px;
+  height: 56px;
+  padding-left: 10px;
+}
+
+#myInput::placeholder {
+  color: #d7d7d7; /* Placeholder color */
+  /*-style: italic;  Placeholder style */
+}
+
+.pick {
+  display: flex;
+  align-items: center;
+  position: relative;
+  bottom: 48px;
+  padding: 8px 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Add ease effect */
+  background-color:rgb(242, 242, 242);
+  border-radius: 10px;
+  width: 1000px;
+  height: 25px;
+  border: 1px rgb(219, 219, 219) solid;
+  font-size: 10px;
+}
+
+label{
+  margin-right: 10px;
+}
+
+.element{
+  margin-right: 10px;
+}
+
+
+/* When hovering over :host, make .pick visible with smooth ease effect */
+:host:hover .pick {
+  opacity: 1;
+}
+
+:host:hover{
+  background-color: rgba(183, 255, 0, 0.737);
+}

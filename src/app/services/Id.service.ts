@@ -7,6 +7,7 @@ export class IdService {
 
   public areaIds: string[] = [];
   public imgIds: string[] = [];
+  public linkIds: string[] = [];
   public textIds: string[] = [];
 
 
@@ -19,6 +20,11 @@ export class IdService {
   
   addImgId(imgId: string): void {
     this.imgIds.push(imgId);
+  }
+
+
+  addLinkId(linkId: string): void {
+    this.linkIds.push(linkId);
   }
 
   addTextId(textId: string): void {
