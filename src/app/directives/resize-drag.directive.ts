@@ -9,6 +9,8 @@ declare const $: any; // Declare jQuery
 export class ResizeDragDirective implements AfterViewInit {
   @Input() containment: string = '.workspace'; // Default containment is ".workspace"
   @Input() imgSrc: string = ''; // Add imgSrc as an input
+  @Input() text: string = ''; // Add imgSrc as an input
+
   @Output() styleChange = new EventEmitter<{ width: string; height: string; top: string; left: string; style: string; content?: string }>();
   @Input() content: string = "No Content";
   
@@ -48,7 +50,7 @@ export class ResizeDragDirective implements AfterViewInit {
           top: computedStyles.top,
           left: computedStyles.left,
           style: inlineStyleString,
-          content: this.imgSrc || this.content, // Use imgSrc if available
+          content: this.imgSrc || this.text, // Use imgSrc if available
         });
       },
     };

@@ -71,7 +71,7 @@ export class HomeComponent implements AfterViewInit   {
     }
 
     if (component !== AreaComponent) {
-      this.dropdownVisible = true; // Show dropdown for selecting area
+      this.dropdownVisible = true; 
       this.ngAfterViewInit();
 
     }

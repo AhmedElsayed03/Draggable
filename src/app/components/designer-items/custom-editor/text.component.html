@@ -1,7 +1,10 @@
-<div class="NgxEditor__Wrapper" cdkDragBoundary=".workspace" cdkDrag Resizable>
-  <ngx-editor [editor]="editor"  formControlName="editorContent">
+<div class="NgxEditor__Wrapper" appResizeDrag >
+
+  <ngx-editor [editor]="editor" [(ngModel)]="html" (ngModelChange)="onEditorChange($event)">
+  <!-- <ngx-editor [editor]="editor" [(ngModel)]="html"> -->
+
     <ngx-editor-floating-menu [editor]="editor">
-      <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" ></ngx-editor-menu>
+      <ngx-editor-menu [editor]="editor"  [toolbar]="toolbar" ></ngx-editor-menu>
     </ngx-editor-floating-menu>
   </ngx-editor>
 </div>
