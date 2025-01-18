@@ -1,0 +1,36 @@
+<div class = "pick">
+
+    <label for="colorPicker">Text Color:</label>
+    <input type="color" class="element" id="colorPicker" value="#0d6199" (input)="onTextColorChange($event)">
+    
+    <label for="colorPicker">Background Color:</label>
+    <input type="color" class="element" id="colorPicker" value="#50b9ff" (input)="onBackgroundColorChange($event)">
+
+    <label for="radius">Rounded Corner:</label>
+    <input type="number" class="element" id="radius" min="0" max="100" step="1" value="0" (input)="onRadiusChange($event)">
+
+    <label for="opacityRange">Opacity:</label>
+    <input type="range"  class="element" id="opacityRange" min="0" max="1" step="0.01" value="1" (input)="onOpacityChangeSlider($event)">
+
+    <label for="fontSize">Font Size:</label>
+    <input type="number"  class="element" id="fontSize" min="0" max="200" step="1" value="30" (input)="onFontSizeChange($event)">
+
+    <label for="fontFamily">Font:</label>
+    <select class="element" id="fontFamily" (change)="onFontFamilyChange($event)">
+    <option value="Arial, Helvetica, sans-serif" selected>Arial</option>
+    <option value="'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Lucida</option>
+    <option value="Segoe UI" style="font-family: Segoe UI;">Segoe UI</option>
+    <option value="Poppins" style="font-family: Poppins;">Poppins</option>
+    <option value="Signature" style="font-family: Signature;">Signature</option>
+    <option value="Playwrite" style="font-family: Playwrite;">Playwrite</option>
+    </select>
+
+    <button class="element" (click)="toggleBold()">Bold</button>
+    <button class="element" (click)="toggleItalic()">Italic</button>
+</div>
+
+    <input type="text" placeholder="Type something" id="myInput" #textInput (input)="onInputResize($event); textValueChange.emit(myInput.nativeElement.value)">
+    
+
+    <!-- <a href="https://www.google.com/" target="_blank" #link>Google</a> -->
+

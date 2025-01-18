@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, Type, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, Renderer2, Type, ViewContainerRef } from '@angular/core';
 import { ResizeDragDirective } from '../../../directives/resize-drag.directive';
 
 // declare const $: any; // Declare jQuery
@@ -14,9 +14,89 @@ import { ResizeDragDirective } from '../../../directives/resize-drag.directive';
 
 export class AreaComponent{
   
+    isPickAtBottom = false;
+
+    borderColor: string = '#000000'; // Default border color
+    borderWidth: string = '0px';    // Default border width
+    borderStyle: string = 'solid';  // Default border style (can be customizable)
+    
     constructor(
         private viewContainerRef: ViewContainerRef,
-        private renderer: Renderer2){}
+        private renderer: Renderer2,
+        private element: ElementRef){}
+
+
+        @HostListener('document:mousemove', ['$event'])
+        onDrag(event: MouseEvent): void {
+          const hostElement = this.element.nativeElement;
+          const top = hostElement.getBoundingClientRect().top;
+
+          // Check if the top is less than 25 and adjust the pick div position
+          if (top < 25) {
+            this.isPickAtBottom = true;
+          } else {
+            this.isPickAtBottom = false;
+          }
+        }
+        
+        
+        onColorChange(event: Event): void {
+          const color = (event.target as HTMLInputElement).value;
+          this.renderer.setStyle(this.element.nativeElement, 'background-color', color);
+        }
+        
+        
+        onRadiusChange(event: Event): void {
+          const radius = (event.target as HTMLInputElement).value + 'px';
+          this.renderer.setStyle(this.element.nativeElement, 'border-radius', radius);
+        }
+        
+        onOpacityChange(event: Event): void {
+          const opacity = (event.target as HTMLInputElement).value;
+          this.renderer.setStyle(this.element.nativeElement, 'opacity', opacity);
+        }
+
+        onOpacityChangeSlider(event: Event): void {
+          const opacity = (event.target as HTMLInputElement).value;
+          
+          // Get the current background color
+          const currentBgColor = getComputedStyle(this.element.nativeElement).backgroundColor;
+        
+          // Extract RGB values from the current background color
+          const rgbMatch = currentBgColor.match(/rgba?\((\d+), (\d+), (\d+)/);
+        
+          if (rgbMatch) {
+            const [_, r, g, b] = rgbMatch; // Extracted R, G, B values
+        
+            // Set the new background color with the updated opacity
+            const newBgColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
+            this.renderer.setStyle(this.element.nativeElement, 'background-color', newBgColor);
+          }
+        }
+        
+        
+        onBorderColorChange(event: Event): void {
+          this.borderColor = (event.target as HTMLInputElement).value;
+          this.updateBorder();
+        }
+        
+        
+        onBorderWidthChange(event: Event): void {
+          this.borderWidth = (event.target as HTMLInputElement).value + 'px';
+          this.updateBorder();
+        }
+        
+        updateBorder(): void {
+          const borderValue = `${this.borderWidth} ${this.borderStyle} ${this.borderColor}`;
+          this.renderer.setStyle(this.element.nativeElement, 'border', borderValue);
+        }
+
+        onBorderStyleChange(event: Event): void {
+          this.borderStyle = (event.target as HTMLSelectElement).value;
+          this.updateBorder();
+        }
+        
+
 
         addItem(componentType: Type<any>, containmentId: string) {
           const createdComponent = this.viewContainerRef.createComponent(componentType);

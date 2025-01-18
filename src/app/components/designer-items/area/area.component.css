@@ -1,8 +1,40 @@
-:host{
+:host {
     display: block;
     position: absolute;
     width: 500px;
     height: 200px;
-    background-color: rgb(190, 246, 255);
-    border-radius: 15px;
+    background-color: #0d6199;
+    left: 30vw;
+    top: 30vh;
+    box-sizing: border-box;
+}
+
+.pick {
+    display: flex;
+    align-items: center;
+    position: relative;
+    bottom: 48px;
+    padding: 8px 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease; /* Add ease effect */
+    background-color:rgb(242, 242, 242);
+    border-radius: 10px;
+    width: 800px;
+    height: 25px;
+    border: 1px rgb(219, 219, 219) solid;
+    font-size: 10px;
+}
+
+label{
+    margin-right: 10px;
+}
+
+.element{
+    margin-right: 10px;
+}
+
+
+/* When hovering over :host, make .pick visible with smooth ease effect */
+:host:hover .pick {
+    opacity: 1;
 }

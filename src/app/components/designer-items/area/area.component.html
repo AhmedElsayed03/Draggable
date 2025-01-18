@@ -1,0 +1,28 @@
+<div class = "pick">
+
+
+    <label for="colorPicker">Color:</label>
+    <input type="color" class="element" id="colorPicker" value="#0d6199" (input)="onColorChange($event)">
+
+    <label for="radius">Rounded Corner:</label>
+    <input type="number" class="element" id="numericInput" min="0" max="100" step="1" value="0" (input)="onRadiusChange($event)">
+
+    <label for="opacityRange">Opacity:</label>
+    <input type="range"  class="element" id="opacityRange" min="0" max="1" step="0.01" value="1" (input)="onOpacityChangeSlider($event)">
+
+    <label for="borderColorPicker">Border Color:</label>
+    <input type="color" class="element" id="borderColorPicker" (input)="onBorderColorChange($event)">
+
+    <label for="borderWidthCounter">Border Width:</label>
+    <input type="number" class="element" id="borderWidthCounter" min="0" max="10" step="1" value="0" (input)="onBorderWidthChange($event)">
+
+    <label for="borderStyleSelector">Border Style:</label>
+    <select class="element" id="borderStyleSelector" (change)="onBorderStyleChange($event)">
+    <option value="solid" selected>Solid</option>
+    <option value="dashed">Dashed</option>
+    <option value="dotted">Dotted</option>
+    <option value="double">Double</option>
+    </select>
+
+
+</div>

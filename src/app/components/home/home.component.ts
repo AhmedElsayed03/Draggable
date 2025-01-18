@@ -12,6 +12,7 @@ import { DraggableItem } from '../../../models/draggable-item';
 import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
 import { SavingService } from '../../services/saving.service';
+import { LinkComponent } from '../designer-items/link/link.component';
 
 @Component({
   selector: 'app-home',
@@ -73,6 +74,10 @@ export class HomeComponent implements AfterViewInit   {
         component = ItemComponent;
         this.componentType = component;
         break;
+      case 'link':
+        component = LinkComponent;
+        this.componentType = component;
+        break;
     }
 
     if (component === AreaComponent) {
@@ -101,5 +106,4 @@ export class HomeComponent implements AfterViewInit   {
   save(){
     this.savingService.saveItems(this.workspace.itemsList)
   }
-
 }

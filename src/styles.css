@@ -5,7 +5,7 @@ body {
 }
 
 
-@font-face {
+  @font-face {
     font-family: "Poppins";
     src: url('/assets/font/Poppins-Regular.ttf') format('truetype');
   }
@@ -22,4 +22,14 @@ body {
   @font-face {
     font-family: "PoppinsEL";
     src: url('assets/font/Poppins-ExtraLight.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: "Signature";
+    src: url('assets/font/Thesignature.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: "Playwrite";
+    src: url('assets/font/PlaywriteVN.ttf') format('truetype');
   }
