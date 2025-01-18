@@ -16,7 +16,7 @@ export class IdService {
 
   
   addImgId(imgId: string): void {
-    this.areaIds.push(imgId);
+    this.imgIds.push(imgId);
   }
 
 }
