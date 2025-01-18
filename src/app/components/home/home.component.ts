@@ -3,9 +3,7 @@ import { DesignerComponent } from '../designer/designer.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
-import { TextComponent } from '../designer-items/Text/text.component';
-import { CustomEditorComponent } from '../designer-items/custom-editor/custom-editor.component';
-import { ImageComponent } from '../designer-items/image/image.component';
+import {  TextComponent } from '../designer-items/custom-editor/text.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { DraggableItem } from '../../../models/draggable-item';
@@ -53,16 +51,8 @@ export class HomeComponent implements AfterViewInit   {
         component = FlightsComponent;
         this.componentType = component;
         break;
-      case 'text':
-        component = TextComponent;
-        this.componentType = component;
-        break;
       case 'CustomEditor':
-        component = CustomEditorComponent;
-        this.componentType = component;
-        break;
-      case 'image':
-        component = ImageComponent;
+        component = TextComponent;
         this.componentType = component;
         break;
       case 'img':
@@ -91,7 +81,6 @@ export class HomeComponent implements AfterViewInit   {
     }
   }
 
-  // Handle the selected area (Workspace or area) and close the dropdown
   onAreaSelected(areaId: string) {
     if (areaId === '.workspace') {
       this.workspace.addToWorkspace(this.componentType);

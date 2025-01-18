@@ -94,6 +94,9 @@ export class WorkspaceComponent {
     }
 
 
+    
+
+
     addToArea(componentType: Type<any>, areaId: string) {
       const areaComponent = this.areaComponents.get(areaId);
       if (!areaComponent) {

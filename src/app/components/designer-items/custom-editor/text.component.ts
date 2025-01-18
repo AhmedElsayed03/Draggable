@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { Resizable } from '../../../directives/resizable.directive';
 import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
-  selector: 'app-custom-editor-component',
+  selector: 'app-text-component',
   standalone: true,
-  templateUrl: './custom-editor.component.html',
+  templateUrl: './text.component.html',
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -16,12 +16,15 @@ import { CdkDrag, DragDropModule } from '@angular/cdk/drag-drop';
     Resizable,
     CdkDrag,
     DragDropModule,
+    FormsModule,
   ],
-  styleUrls: ['./custom-editor.component.css'],
+  styleUrls: ['./text.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CustomEditorComponent implements OnInit, OnDestroy {
+export class TextComponent implements OnInit, OnDestroy {
   editor!: Editor;
+  html: string = ''; // Content of the editor
+
   toolbar: Toolbar = [
     ['bold', 'italic'],
     ['underline', 'strike'],
@@ -47,7 +50,10 @@ export class CustomEditorComponent implements OnInit, OnDestroy {
       inputRules: true,
     });
   }
-
+  onEditorChange(content: string) {
+    this.html = content;
+    // this.ContentChange.emit({ content });
+  }
   ngOnDestroy(): void {
     this.editor.destroy();
   }
