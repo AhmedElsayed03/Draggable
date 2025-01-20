@@ -3,7 +3,7 @@ import { DesignerComponent } from '../designer/designer.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { WeatherComponent } from '../designer-items/weather/weather.component';
 import { FlightsComponent } from '../designer-items/flights/flights.component';
-import {  TextComponent } from '../designer-items/custom-editor/text.component';
+import {  TextComponent } from '../designer-items/text/text.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
 import { DraggableItem } from '../../../models/draggable-item';

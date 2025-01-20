@@ -5,7 +5,7 @@ import { ImgComponent } from '../designer-items/img/img.component';
 import { DraggableItem } from '../../../models/draggable-item';
 import { IdService } from '../../services/Id.service';
 import { LinkComponent } from '../designer-items/link/link.component';
-import { TextComponent } from '../designer-items/custom-editor/text.component';
+import { TextComponent } from '../designer-items/text/text.component';
 
 @Component({
   selector: 'app-workspace',
@@ -159,7 +159,7 @@ export class WorkspaceComponent {
         // directive.ngAfterViewInit(); 
       }
 
-      
+
       //LINK COMPONENT
       if (componentType === LinkComponent) {
         this.linkCounter++;
