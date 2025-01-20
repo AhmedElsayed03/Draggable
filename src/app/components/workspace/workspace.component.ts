@@ -123,7 +123,7 @@ export class WorkspaceComponent {
       if(componentType === TextComponent){
 
         this.textCounter++;
-        const newtextId = `img.${this.textCounter}`;
+        const newtextId = `text.${this.textCounter}`;
         this.renderer.setAttribute(hostElement, 'id', newtextId);
         this.textIds.push(newtextId);
         const instance = createdComponent.instance as TextComponent;
@@ -137,7 +137,7 @@ export class WorkspaceComponent {
         directive.ngAfterViewInit(); 
 
         instance.TextChange.subscribe((text: string) => {
-          console.log('Received text from ImgComponent:', text);
+          console.log('Received text from TextComponent:', text);
           directive.text = text;
           directive.styleChange.subscribe((styles) => {
 
