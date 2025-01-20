@@ -28,7 +28,7 @@ export class SavingService {
     this.http.post(this.baseUrl + 'DraggableItems/save', itemsList).subscribe({
       next: (response) => {
         console.log('Items saved successfully!', response);
-        this.toastr.success(response.toString(), 'Successfully', {
+        this.toastr.success('Items saved successfully!', 'Successfully', {
           timeOut: 3000,
         });
       },
