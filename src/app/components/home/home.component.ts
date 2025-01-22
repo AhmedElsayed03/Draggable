@@ -1,8 +1,6 @@
 import { Component, ViewChild, Type, AfterViewInit} from '@angular/core';
 import { DesignerComponent } from '../designer/designer.component';
 import { WorkspaceComponent } from '../workspace/workspace.component';
-import { WeatherComponent } from '../designer-items/weather/weather.component';
-import { FlightsComponent } from '../designer-items/flights/flights.component';
 import {  TextComponent } from '../designer-items/text/text.component';
 import { ImgComponent } from '../designer-items/img/img.component';
 import { AreaComponent } from '../designer-items/area/area.component';
@@ -11,6 +9,7 @@ import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
 import { SavingService } from '../../services/saving.service';
 import { LinkComponent } from '../designer-items/link/link.component';
+import { MediaComponent } from '../designer-items/media/media.component';
 
 @Component({
   selector: 'app-home',
@@ -40,12 +39,8 @@ export class HomeComponent implements AfterViewInit   {
     let component: Type<any> | null = null;
 
     switch (type) {
-      case 'weather':
-        component = WeatherComponent;
-        this.componentType = component;
-        break;
-      case 'flights':
-        component = FlightsComponent;
+      case 'media':
+        component = MediaComponent;
         this.componentType = component;
         break;
       case 'CustomEditor':
