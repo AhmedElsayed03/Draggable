@@ -57,3 +57,34 @@
   font-size: 14px;
   color: #333;
 }
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  bottom: 50px; /* Adjust to appear above the button */
+  left: 0;
+  background-color: #ffffff;
+  min-width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 20;
+}
+
+.dropdown-content div {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-content div:hover {
+  background-color: #f0f8ff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

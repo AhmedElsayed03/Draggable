@@ -6,6 +6,7 @@ import { DraggableItem } from '../../../models/draggable-item';
 import { IdService } from '../../services/Id.service';
 import { LinkComponent } from '../designer-items/link/link.component';
 import { TextComponent } from '../designer-items/text/text.component';
+import { MediaComponent } from '../designer-items/media/media.component';
 
 @Component({
   selector: 'app-workspace',
@@ -76,6 +77,46 @@ export class WorkspaceComponent {
           console.log('Updated components list:', this.itemsList);
     
         });
+      }
+
+      //Media COMPONENT
+      if(componentType === MediaComponent){
+
+        this.imgCounter++;
+        const newImgId = `img.${this.imgCounter}`;
+        this.renderer.setAttribute(hostElement, 'id', newImgId);
+        this.imgIds.push(newImgId);
+        const instance = createdComponent.instance as ImgComponent;
+        this.imgComponents.set(newImgId, instance);
+        this.StoreId.addImgId(newImgId);
+
+        const workspaceElement = this.viewContainerRef.element.nativeElement;
+        this.renderer.appendChild(workspaceElement, hostElement);
+        
+        const directive = new ResizeDragDirective(new ElementRef(hostElement));
+        directive.ngAfterViewInit(); 
+
+        instance.imgSrcChange.subscribe((imgSrc: string) => {
+          console.log('Received imgSrc from ImgComponent:', imgSrc);
+          directive.imgSrc = imgSrc;
+          directive.styleChange.subscribe((styles) => {
+
+              const existing = this.itemsList.find((c) => c.id === newImgId);
+              if (existing) {
+                existing.styles = styles;
+    
+              } else {
+                this.itemsList.push({
+                  id: newImgId,
+                  type :componentType.name.toString(),
+                  styles,
+                });
+              }
+              console.log('Updated components list:', this.itemsList);
+            });
+        });
+
+        // directive.ngAfterViewInit(); 
       }
 
 

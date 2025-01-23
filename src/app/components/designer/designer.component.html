@@ -26,8 +26,24 @@
     <span class="name">Area</span>
   </button>
   
-  <button class="designer-button" (click)="createComponent('media')">
+  <button class="designer-button" (click)="file.click()">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files!)" style="display:none;">
+
     <span class="icon"><img src="../../../assets/media.png" style="width: 35px; height: 35px"></span>
     <span class="name">Media</span>
   </button>
+
+  <div class="dropdown">
+    <button class="designer-button">
+      <span class="icon">
+        <img src="../../../assets/uploaded-files.png" style="width: 35px; height: 35px">
+      </span>
+      <span class="name">Files</span>
+    </button>
+    <div class="dropdown-content">
+      <div *ngFor="let file of uploadedFiles" (click)="selectFile(file)">
+        <span>{{ file }}</span>
+      </div>
+    </div>
+  </div>
 </div>
