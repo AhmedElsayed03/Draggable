@@ -29,6 +29,8 @@ export class WorkspaceComponent {
   private linkIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
   private imgComponents: Map<string, ImgComponent> = new Map();
+  private mediaComponents: Map<string, MediaComponent> = new Map();
+
   private linkComponents: Map<string, LinkComponent> = new Map();
   private textComponents: Map<string, TextComponent> = new Map();
 
@@ -86,8 +88,8 @@ export class WorkspaceComponent {
         const newImgId = `img.${this.imgCounter}`;
         this.renderer.setAttribute(hostElement, 'id', newImgId);
         this.imgIds.push(newImgId);
-        const instance = createdComponent.instance as ImgComponent;
-        this.imgComponents.set(newImgId, instance);
+        const instance = createdComponent.instance as MediaComponent;
+        this.mediaComponents.set(newImgId, instance);
         this.StoreId.addImgId(newImgId);
 
         const workspaceElement = this.viewContainerRef.element.nativeElement;

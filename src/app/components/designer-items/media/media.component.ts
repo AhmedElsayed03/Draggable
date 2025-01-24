@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { SavingService } from '../../../services/saving.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { SavingService } from '../../../services/saving.service';
   templateUrl: './media.component.html',
   styleUrl: './media.component.css'
 })
-export class MediaComponent implements OnInit{
+export class MediaComponent implements OnInit , AfterViewInit {
 
   @Output() public onUploadFinished = new EventEmitter();
   
@@ -19,15 +19,33 @@ export class MediaComponent implements OnInit{
     @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
   
     imageSrc: string = "../../../../assets/UploadImgPlaceHolder.jpeg"; // Default placeholder image
-    
+    isVideo: boolean = false;
   constructor(private http: HttpClient ,private savingService : SavingService) { }
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.savingService.imgSrcChange.subscribe((newSrc: string) => {
       console.log('Image source updated:', newSrc);
-      this.imageSrc = newSrc; // Update the local imageSrc in MediaComponent
-    });
+      this.imageSrc = newSrc; 
 
+
+      if (this.isMp4File(this.imageSrc)) {
+        this.isVideo = true;
+      } else {
+        this.isVideo = false;
+      }
+
+
+      this.imgSrcChange.emit(this.imageSrc);
+    });  
   }
+  ngOnInit() {
+ 
+  }
+
+  isMp4File(path : string): boolean {
+    const extension = path.split('.').pop()?.toLowerCase();
+    return extension === 'mp4';
+  }
+  
 
   
   // uploadFile = (files :FileList) => {
