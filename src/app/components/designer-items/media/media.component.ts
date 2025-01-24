@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { SavingService } from '../../../services/saving.service';
 
 @Component({
   selector: 'app-media',
@@ -10,8 +11,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
   styleUrl: './media.component.css'
 })
 export class MediaComponent implements OnInit{
-  progress!: number;
-  message!: string;
+
   @Output() public onUploadFinished = new EventEmitter();
   
 
@@ -19,43 +19,36 @@ export class MediaComponent implements OnInit{
     @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
   
     imageSrc: string = "../../../../assets/UploadImgPlaceHolder.jpeg"; // Default placeholder image
-    isDragging: boolean = false;
-    mouseDownTime: number = 0;
-  
-
     
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private savingService : SavingService) { }
   ngOnInit() {
-  }
-
-  uploadFile = (files :FileList) => {
-    if (files.length === 0) {
-      return;
-    }
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    
-    this.http.post('https://localhost:7045/api/DraggableItems/upload', formData, { observe: 'events', responseType: 'text' as 'json' }) // Observe events with response type as text
-    .subscribe({
-      next: (event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
-        } else if (event.type === HttpEventType.Response) {
-          const response = event.body as string; // Cast response as string
-          this.imageSrc = response;
-          this.imgSrcChange.emit(this.imageSrc);
-          console.log('File URL:', this.imageSrc);
-          this.message = 'Upload success.';
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error('Upload failed:', err.message);
-        this.message = 'Upload failed. Please try again.';
-      }
+    this.savingService.imgSrcChange.subscribe((newSrc: string) => {
+      console.log('Image source updated:', newSrc);
+      this.imageSrc = newSrc; // Update the local imageSrc in MediaComponent
     });
-  
 
-    
   }
+
+  
+  // uploadFile = (files :FileList) => {
+  //   if (files.length === 0) {
+  //     return;
+  //   }
+  //   let fileToUpload = <File>files[0];
+  //   const formData = new FormData();
+  //   formData.append('file', fileToUpload, fileToUpload.name);
+    
+  //   this.http.post('https://localhost:7045/api/DraggableItems/upload', formData, { responseType: 'text' })
+  //   .subscribe({
+  //     next: (response: string) => {
+  //       console.log('File uploaded successfully:', response);
+  //       this.imageSrc = response; // Assign the uploaded file URL
+  //       this.imgSrcChange.emit(this.imageSrc); // Emit the updated value
+  //     },
+  //     error: (err) => {
+  //       console.error('Error uploading file:', err);
+  //     }
+  //   });
+   
+  // }
 }

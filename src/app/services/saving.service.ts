@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { DraggableItem } from '../../models/draggable-item';
 import { ToastrService } from 'ngx-toastr';
 
@@ -8,6 +8,11 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class SavingService {
+
+  
+      @Output() imgSrcChange = new EventEmitter<string>(); 
+    
+      imageSrc: string = ""; 
 
   
   private baseUrl: string = "https://localhost:7045/api/";
@@ -41,7 +46,27 @@ export class SavingService {
       }
     });
 
+  }
 
+
+  uploadFile = (files :FileList) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
     
+    this.http.post('https://localhost:7045/api/DraggableItems/upload', formData, { responseType: 'text' })
+    .subscribe({
+      next: (response: string) => {
+        console.log('File uploaded successfully:', response);
+        this.imageSrc = response; 
+        this.imgSrcChange.emit(this.imageSrc);
+      },
+      error: (err) => {
+        console.error('Error uploading file:', err);
+      }
+    }); 
   }
 }

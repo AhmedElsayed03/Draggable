@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { error } from 'jquery';
 import { MediaComponent } from '../designer-items/media/media.component';
+import { SavingService } from '../../services/saving.service';
 
 @Component({
   selector: 'app-designer',
@@ -16,18 +17,15 @@ export class DesignerComponent implements OnInit ,AfterViewInit {
   @Output() showDropdown = new EventEmitter<void>();
 
   uploadedFiles: string[] = [];
-  @ViewChild(MediaComponent) mediaComponent!: MediaComponent; // استخدام @ViewChild للوصول إلى المكون الفرعي
-
-constructor(private http :HttpClient, private cdRef: ChangeDetectorRef  ) {  }
+constructor(private http :HttpClient , private savingService :SavingService  ) {  }
   ngOnInit(): void {
   this.getUploadedFiles();
   }
   ngAfterViewInit() {
-    this.cdRef.detectChanges(); // Trigger change detection manually
 
 
-    if (!this.mediaComponent) {
-      console.error('MediaComponent is not initialized');
+    if (!this.savingService) {
+      console.error('savingService is not initialized');
     }
   }
   createComponent(type: string) {
@@ -39,11 +37,11 @@ constructor(private http :HttpClient, private cdRef: ChangeDetectorRef  ) {  }
 
 
   uploadFile(files: FileList): void {
-    if (files.length > 0 && this.mediaComponent) {
-      this.mediaComponent.uploadFile(files); // Call uploadFile in MediaComponent
+    if (files.length > 0 && this.savingService) {
+      this.savingService.uploadFile(files); 
+      this.componentType.emit('media');
     }
   }
-
 
   getUploadedFiles(): void{
     this.http.get<string[]>('https://localhost:7045/api/DraggableItems/Resources/Images').subscribe({
