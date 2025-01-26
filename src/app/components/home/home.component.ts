@@ -11,6 +11,7 @@ import { DropDownComponent } from "../drop-down/drop-down.component";
 import { ItemComponent } from '../designer-items/item/item.component';
 import { SavingService } from '../../services/saving.service';
 import { LinkComponent } from '../designer-items/link/link.component';
+import { ListComponent } from '../designer-items/list/list.component';
 
 @Component({
   selector: 'app-home',
@@ -66,6 +67,10 @@ export class HomeComponent implements AfterViewInit   {
         break;
       case 'link':
         component = LinkComponent;
+        this.componentType = component;
+        break;
+      case 'list':
+        component = ListComponent;
         this.componentType = component;
         break;
     }

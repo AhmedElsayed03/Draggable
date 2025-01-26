@@ -1,0 +1,13 @@
+@for(item of items; track item){
+    <div class="item">
+        <div>
+            <img [src]="item.imageSrc" class="itemImg">
+            <p>{{item.description}}</p>
+        </div>
+    </div>
+}
+
+
+<div class="addButton">
+    <img class="addIcon" src="../../../../assets/add.png">
+</div>

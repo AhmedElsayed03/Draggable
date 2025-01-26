@@ -6,11 +6,12 @@ import { DraggableItem } from '../../../models/draggable-item';
 import { IdService } from '../../services/Id.service';
 import { LinkComponent } from '../designer-items/link/link.component';
 import { TextComponent } from '../designer-items/text/text.component';
+import { ListComponent } from '../designer-items/list/list.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [AreaComponent, ResizeDragDirective],
+  imports: [ListComponent, ResizeDragDirective],
   templateUrl: './workspace.component.html',
   styleUrls: ['./workspace.component.css'],
 })
@@ -19,17 +20,20 @@ export class WorkspaceComponent {
   private areaCounter = 0;
   private imgCounter = 0;
   private linkCounter = 0;
-  private stylesString:any;
   private textCounter = 0;
+  private listCounter = 0;
+  private stylesString:any;
 
   private areaIds: string[] = [];
   private textIds: string[] = [];
   private imgIds: string[] = [];
   private linkIds: string[] = [];
+  private listIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
   private imgComponents: Map<string, ImgComponent> = new Map();
   private linkComponents: Map<string, LinkComponent> = new Map();
   private textComponents: Map<string, TextComponent> = new Map();
+  private listComponents: Map<string, ListComponent> = new Map();
 
   public itemsList: DraggableItem[] = [];
 
@@ -212,7 +216,41 @@ export class WorkspaceComponent {
           });
       });
       }
+
+      //LIST COMPONENT
+      if (componentType === ListComponent) {
+        this.listCounter++;
+        const newListId = `list.${this.listCounter}`;
+        this.renderer.setAttribute(hostElement, 'id', newListId);
+        // this.renderer.setAttribute(hostElement, 'z-index', '2');
+        this.listIds.push(newListId);
+        const instance = createdComponent.instance as ListComponent;
+        // Store reference to the created ListComponent instance
+        this.listComponents.set(newListId, instance);
+        // Update the service with the new listId
+        this.StoreId.addListId(newListId);
+        // Append the created component directly to the WorkspaceComponent
+        const workspaceElement = this.viewContainerRef.element.nativeElement;
+        this.renderer.appendChild(workspaceElement, hostElement)
     
+        const directive = new ResizeDragDirective(new ElementRef(hostElement));
+        directive.ngAfterViewInit();
+
+        directive.styleChange.subscribe((styles) => {
+          const existing = this.itemsList.find((c) => c.id === newListId);
+          if (existing) {
+            existing.styles = styles;
+          } else {
+            this.itemsList.push({
+              id: newListId,
+              type :componentType.name.toString(),
+              styles,
+            });
+          }
+          console.log('Updated components list:', this.itemsList);
+        });
+      }
+
     }           
 
 

@@ -9,6 +9,7 @@ export class IdService {
   public imgIds: string[] = [];
   public linkIds: string[] = [];
   public textIds: string[] = [];
+  public listIds: string[] = [];
 
 
   constructor() {}
@@ -29,6 +30,10 @@ export class IdService {
 
   addTextId(textId: string): void {
     this.textIds.push(textId);
+  }
+
+  addListId(listId: string): void {
+    this.listIds.push(listId);
   }
 
 }
