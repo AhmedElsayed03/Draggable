@@ -10,35 +10,17 @@ import { SavingService } from '../../../services/saving.service';
   templateUrl: './media.component.html',
   styleUrl: './media.component.css'
 })
-export class MediaComponent implements OnInit , AfterViewInit {
-
-  @Output() public onUploadFinished = new EventEmitter();
+export class MediaComponent implements AfterViewInit {
   
+  @Output() imgSrcChange = new EventEmitter<string>();
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
 
-    @Output() imgSrcChange = new EventEmitter<string>(); // Emit changes to imgSrc
-    @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
-  
-    imageSrc: string = "../../../../assets/UploadImgPlaceHolder.jpeg"; // Default placeholder image
-    isVideo: boolean = false;
-  constructor(private http: HttpClient ,private savingService : SavingService) { }
-  ngAfterViewInit(): void {
-    this.savingService.imgSrcChange.subscribe((newSrc: string) => {
-      console.log('Image source updated:', newSrc);
-      this.imageSrc = newSrc; 
-
-
-      if (this.isMp4File(this.imageSrc)) {
-        this.isVideo = true;
-      } else {
-        this.isVideo = false;
-      }
-
-
-      this.imgSrcChange.emit(this.imageSrc);
-    });  
-  }
-  ngOnInit() {
+  imageSrc: string = "";
+  isVideo: boolean = false;
+  constructor(private http: HttpClient) { }
  
+  ngAfterViewInit(): void {
+    this.fileInput.nativeElement.click(); 
   }
 
   isMp4File(path : string): boolean {
@@ -47,26 +29,31 @@ export class MediaComponent implements OnInit , AfterViewInit {
   }
   
 
+  uploadFile(files: FileList): void {
+    if (files.length === 0) {
+      return;
+    }
+    const fileToUpload = files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
   
-  // uploadFile = (files :FileList) => {
-  //   if (files.length === 0) {
-  //     return;
-  //   }
-  //   let fileToUpload = <File>files[0];
-  //   const formData = new FormData();
-  //   formData.append('file', fileToUpload, fileToUpload.name);
-    
-  //   this.http.post('https://localhost:7045/api/DraggableItems/upload', formData, { responseType: 'text' })
-  //   .subscribe({
-  //     next: (response: string) => {
-  //       console.log('File uploaded successfully:', response);
-  //       this.imageSrc = response; // Assign the uploaded file URL
-  //       this.imgSrcChange.emit(this.imageSrc); // Emit the updated value
-  //     },
-  //     error: (err) => {
-  //       console.error('Error uploading file:', err);
-  //     }
-  //   });
-   
-  // }
+    this.http.post('https://localhost:7045/api/DraggableItems/upload', formData, { responseType: 'text' })
+      .subscribe({
+        next: (response: string) => {
+          console.log('File uploaded successfully:', response);
+          this.imageSrc = response;  
+          if (this.isMp4File(this.imageSrc)) {
+            this.isVideo = true;
+          } else {
+            this.isVideo = false;
+          }
+          this.imgSrcChange.emit(this.imageSrc);
+        },
+        error: (err) => {
+          console.error('Error uploading file:', err);
+        }
+      });
+  }
+
+  
 }

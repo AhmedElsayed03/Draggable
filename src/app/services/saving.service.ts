@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { DraggableItem } from '../../models/draggable-item';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class SavingService {
     
       imageSrc: string = ""; 
 
-  
+
   private baseUrl: string = "https://localhost:7045/api/";
   constructor(private http: HttpClient , private toastr: ToastrService) { }
 

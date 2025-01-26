@@ -18,20 +18,21 @@
 
   <button class="designer-button" (click)="createComponent('link')">
     <span class="icon"><img src="../../../assets/link.png" style="width: 35px; height: 35px"></span>
-    <span class="name">Link</span>
+    <span class="name">
+      Link</span>
   </button>
 
   <button class="designer-button" (click)="createComponent('area')">
     <span class="icon"><img src="../../../assets/area.png" style="width: 35px; height: 35px"></span>
     <span class="name">Area</span>
   </button>
+
   
-  <button class="designer-button" (click)="file.click()">
-    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files!)" style="display:none;">
+  <button class="designer-button" (click)="createComponent('media')">
 
     <span class="icon"><img src="../../../assets/media.png" style="width: 35px; height: 35px"></span>
     <span class="name">Media</span>
-  </button>
+  </button> 
 
   <div class="dropdown">
     <button class="designer-button">

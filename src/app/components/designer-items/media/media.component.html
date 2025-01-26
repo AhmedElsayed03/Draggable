@@ -1,16 +1,11 @@
 
-<!-- <div class="row" style="margin-bottom:15px;">
-      <div class="resizable resizable-container">
-        <div class="image-container">
-      <img [src]="imageSrc" alt="Upload placeholder" class="img" />
-</div> -->
+<input #fileInput type="file" (change)="uploadFile(fileInput.files!)" style="display: none;" />
 
-
-<div class="resizable resizable-container">
-  <div *ngIf="isVideo" class="video-container">
-    <video [src]="imageSrc" controls class="video"></video>
+<div *ngIf="imageSrc != ''"  class="resizable resizable-container">
+  <div *ngIf="isVideo" class="media-container">
+    <video [src]="imageSrc" controls class="media"></video>
   </div>
-  <div *ngIf="!isVideo" class="image-container">
-    <img [src]="imageSrc" alt="Upload placeholder" class="img" />
+  <div *ngIf="!isVideo" class="media-container">
+    <img [src]="imageSrc" alt="Upload placeholder" class="media" />
   </div>
 </div>

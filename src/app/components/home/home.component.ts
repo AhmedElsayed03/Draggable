@@ -23,7 +23,7 @@ export class HomeComponent implements AfterViewInit   {
 
   componentsList: DraggableItem[] = [];
   areaId: string = "";
-  dropdownVisible: boolean = false; //Control dropdown visibility
+  dropdownVisible: boolean = false; 
   showWorkspace = true;
   componentType!: Type<any>;
 

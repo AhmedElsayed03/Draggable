@@ -23,7 +23,6 @@ constructor(private http :HttpClient , private savingService :SavingService  ) {
   }
   ngAfterViewInit() {
 
-
     if (!this.savingService) {
       console.error('savingService is not initialized');
     }
@@ -33,14 +32,6 @@ constructor(private http :HttpClient , private savingService :SavingService  ) {
       this.showDropdown.emit();
     }
     this.componentType.emit(type);
-  }
-
-
-  uploadFile(files: FileList): void {
-    if (files.length > 0 && this.savingService) {
-      this.savingService.uploadFile(files); 
-      this.componentType.emit('media');
-    }
   }
 
   getUploadedFiles(): void{
@@ -56,7 +47,6 @@ constructor(private http :HttpClient , private savingService :SavingService  ) {
 
 selectFile(file : string): void{
   this.componentType.emit('media');
-
 
 }
 

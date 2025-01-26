@@ -80,8 +80,6 @@ export class WorkspaceComponent {
     
         });
       }
-
-      //Media COMPONENT
       if(componentType === MediaComponent){
 
         this.imgCounter++;
