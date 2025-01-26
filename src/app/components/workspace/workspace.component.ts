@@ -19,6 +19,8 @@ export class WorkspaceComponent {
 
   private areaCounter = 0;
   private imgCounter = 0;
+  private mediaCounter = 0;
+
   private linkCounter = 0;
   private stylesString:any;
   private textCounter = 0;
@@ -26,6 +28,8 @@ export class WorkspaceComponent {
   private areaIds: string[] = [];
   private textIds: string[] = [];
   private imgIds: string[] = [];
+  private mediaIds: string[] = [];
+
   private linkIds: string[] = [];
   private areaComponents: Map<string, AreaComponent> = new Map();
   private imgComponents: Map<string, ImgComponent> = new Map();
@@ -82,13 +86,13 @@ export class WorkspaceComponent {
       }
       if(componentType === MediaComponent){
 
-        this.imgCounter++;
-        const newImgId = `img.${this.imgCounter}`;
-        this.renderer.setAttribute(hostElement, 'id', newImgId);
-        this.imgIds.push(newImgId);
+        this.mediaCounter++;
+        const newMediaId = `media.${this.mediaCounter}`;
+        this.renderer.setAttribute(hostElement, 'id', newMediaId);
+        this.mediaIds.push(newMediaId);
         const instance = createdComponent.instance as MediaComponent;
-        this.mediaComponents.set(newImgId, instance);
-        this.StoreId.addImgId(newImgId);
+        this.mediaComponents.set(newMediaId, instance);
+        this.StoreId.addMediaId(newMediaId);
 
         const workspaceElement = this.viewContainerRef.element.nativeElement;
         this.renderer.appendChild(workspaceElement, hostElement);
@@ -96,18 +100,18 @@ export class WorkspaceComponent {
         const directive = new ResizeDragDirective(new ElementRef(hostElement));
         directive.ngAfterViewInit(); 
 
-        instance.imgSrcChange.subscribe((imgSrc: string) => {
-          console.log('Received imgSrc from ImgComponent:', imgSrc);
-          directive.imgSrc = imgSrc;
+        instance.mediaSrc.subscribe((mediaSrc: string) => {
+          console.log('Received imgSrc from ImgComponent:', mediaSrc);
+          directive.imgSrc = mediaSrc;
           directive.styleChange.subscribe((styles) => {
 
-              const existing = this.itemsList.find((c) => c.id === newImgId);
+              const existing = this.itemsList.find((c) => c.id === newMediaId);
               if (existing) {
                 existing.styles = styles;
     
               } else {
                 this.itemsList.push({
-                  id: newImgId,
+                  id: newMediaId,
                   type :componentType.name.toString(),
                   styles,
                 });
@@ -115,8 +119,6 @@ export class WorkspaceComponent {
               console.log('Updated components list:', this.itemsList);
             });
         });
-
-        // directive.ngAfterViewInit(); 
       }
 
 

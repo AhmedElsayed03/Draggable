@@ -12,10 +12,10 @@ import { SavingService } from '../../../services/saving.service';
 })
 export class MediaComponent implements AfterViewInit {
   
-  @Output() imgSrcChange = new EventEmitter<string>();
+  @Output() mediaSrc = new EventEmitter<string>();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
 
-  imageSrc: string = "";
+  mediapath: string = "";
   isVideo: boolean = false;
   constructor(private http: HttpClient) { }
  
@@ -41,13 +41,13 @@ export class MediaComponent implements AfterViewInit {
       .subscribe({
         next: (response: string) => {
           console.log('File uploaded successfully:', response);
-          this.imageSrc = response;  
-          if (this.isMp4File(this.imageSrc)) {
+          this.mediapath = response;  
+          if (this.isMp4File(this.mediapath)) {
             this.isVideo = true;
           } else {
             this.isVideo = false;
           }
-          this.imgSrcChange.emit(this.imageSrc);
+          this.mediaSrc.emit(this.mediapath);
         },
         error: (err) => {
           console.error('Error uploading file:', err);

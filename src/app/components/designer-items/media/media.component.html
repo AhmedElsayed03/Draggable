@@ -1,11 +1,11 @@
 
 <input #fileInput type="file" (change)="uploadFile(fileInput.files!)" style="display: none;" />
 
-<div *ngIf="imageSrc != ''"  class="resizable resizable-container">
+<div *ngIf="mediapath != ''"  class="resizable resizable-container">
   <div *ngIf="isVideo" class="media-container">
-    <video [src]="imageSrc" controls class="media"></video>
+    <video [src]="mediapath" controls class="media"></video>
   </div>
   <div *ngIf="!isVideo" class="media-container">
-    <img [src]="imageSrc" alt="Upload placeholder" class="media" />
+    <img [src]="mediapath" alt="Upload placeholder" class="media" />
   </div>
 </div>
