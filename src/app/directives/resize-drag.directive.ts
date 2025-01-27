@@ -54,7 +54,7 @@ export class ResizeDragDirective implements AfterViewInit {
           top: computedStyles.top,
           left: computedStyles.left,
           style: inlineStyleString,
-          content:  this.textvalue||this.imgSrc || this.text, // Use imgSrc if available
+          content:  this.textvalue || this.imgSrc || this.text
         });
       },
     };

@@ -217,6 +217,7 @@ export class WorkspaceComponent {
       });
       }
 
+      
       //LIST COMPONENT
       if (componentType === ListComponent) {
         this.listCounter++;
