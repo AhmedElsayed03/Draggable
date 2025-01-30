@@ -98,6 +98,7 @@ export class HomeComponent implements AfterViewInit   {
   }
   
   save(){
+    this.workspace.saveAreas()
     this.savingService.saveItems(this.workspace.itemsList)
   }
 }

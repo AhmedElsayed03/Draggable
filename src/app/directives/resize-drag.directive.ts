@@ -26,46 +26,55 @@ export class ResizeDragDirective implements AfterViewInit {
       grid: [10, 10],
       handles: this.disableResizing ? '' : 'n, e, s, w, se, sw, ne, nw', // Disable handles if resizing is disabled
       containment: this.containment,
-
-      stop: (event: Event, ui: any) => {
-        const inlineStyles: { [key: string]: string } = {};
-
-        const computedStyles = window.getComputedStyle(resizableElement);
-        const tempElement = document.createElement(resizableElement.tagName);
-        document.body.appendChild(tempElement);
-        const defaultStyles = window.getComputedStyle(tempElement);
-
-        Array.from(computedStyles).forEach((property) => {
-          if (computedStyles.getPropertyValue(property) !== defaultStyles.getPropertyValue(property)) {
-            inlineStyles[property] = computedStyles.getPropertyValue(property);
-          }
-        });
-
-        document.body.removeChild(tempElement);
-
-        const inlineStyleString = Object.entries(inlineStyles) 
-          .map(([key, value]) => `${key}:${value}`)
-          .join(';');
-
-        console.log(inlineStyleString);
-        this.styleChange.emit({
-          width: computedStyles.width,
-          height: computedStyles.height,
-          top: computedStyles.top,
-          left: computedStyles.left,
-          style: inlineStyleString,
-          content:  this.textvalue || this.imgSrc || this.text
-        });
-      },
     };
-
-    if (!this.disableResizing) {
-      $(resizableElement).resizable(configuration); // Only enable resizing if not disabled
-    }
-
-    $(resizableElement).draggable(configuration); // Enable dragging
+    
+    $(resizableElement).resizable(configuration);
+    $(resizableElement).draggable(configuration);
   }
 }
+
+
+
+
+
+
+
+
+
+
+      // stop: (event: Event, ui: any) => {
+      //   const inlineStyles: { [key: string]: string } = {};
+
+      //   const computedStyles = window.getComputedStyle(resizableElement);
+      //   const tempElement = document.createElement(resizableElement.tagName);
+      //   document.body.appendChild(tempElement);
+      //   const defaultStyles = window.getComputedStyle(tempElement);
+
+      //   Array.from(computedStyles).forEach((property) => {
+      //     if (computedStyles.getPropertyValue(property) !== defaultStyles.getPropertyValue(property)) {
+      //       inlineStyles[property] = computedStyles.getPropertyValue(property);
+      //     }
+      //   });
+
+      //   document.body.removeChild(tempElement);
+
+      //   const inlineStyleString = Object.entries(inlineStyles) 
+      //     .map(([key, value]) => `${key}:${value}`)
+      //     .join(';');
+
+      //   console.log(inlineStyleString);
+      //   this.styleChange.emit({
+      //     width: computedStyles.width,
+      //     height: computedStyles.height,
+      //     top: computedStyles.top,
+      //     left: computedStyles.left,
+      //     style: inlineStyleString,
+      //     content:  this.textvalue || this.imgSrc || this.text
+      //   });
+      // },
+
+
+
 
   // const computedStyles = window.getComputedStyle(resizableElement);
   // const elementHTML = resizableElement.firstElementChild;
